@@ -191,155 +191,52 @@ export default function HeroSection() {
   };
 
   //Production - handleReceive {************YE DEKHNA H TUJE**************}
-  // const handleReceive = async () => {
-  //   setIsFetching(true);
-  //   setReceiveError("");
-  //   setReceiveFileData(null);
-
-  //   try {
-  //     const { blob, filename, contentType, originalFileName, size } = await downloadFile(receiveCode);
-
-  //     // Verify blob before creating URL
-  //     if (!blob || !(blob instanceof Blob)) {
-  //       throw new Error('Invalid file data');
-  //     }
-
-  //     // Create download link
-  //     const url = window.URL.createObjectURL(blob);
-  //     const a = document.createElement('a');
-  //     a.href = url;
-  //     a.download = originalFileName; // Use original filename for download
-  //     document.body.appendChild(a);
-  //     a.click();
-
-  //     // Cleanup
-  //     setTimeout(() => {
-  //       window.URL.revokeObjectURL(url);
-  //       document.body.removeChild(a);
-  //     }, 100);
-
-  //     // Update UI state with original filename
-  //     setReceiveFileData({
-  //       name: originalFileName, // Use original filename here
-  //       originalFileName, // Keep original name separate if needed
-  //       type: contentType,
-  //       size: size,
-  //       url // Optional: keep download URL if needed
-  //     });
-
-  //     toast.success("File downloaded successfully!");
-  //   } catch (error) {
-  //     console.error("Error receiving file:", error);
-  //     let errorMessage = "Download failed";
-  //     if (error.message.includes('Network Error')) {
-  //       errorMessage = "Network connection failed";
-  //     } else if (error.response?.status === 404) {
-  //       errorMessage = "File not found";
-  //     }
-  //     setReceiveError(errorMessage);
-  //     toast.error(errorMessage);
-  //   } finally {
-  //     setIsFetching(false);
-  //   }
-  // };
-
-  // const handleReceive = async () => {
-  //   setIsFetching(true);
-  //   setReceiveError("");
-  //   setReceiveFileData(null);
-
-  //   try {
-  //     // Destructure 'filename' from the API response
-  //     const { blob, filename, size, contentType } = await downloadFile(
-  //       receiveCode
-  //     );
-
-  //     // Create a temporary URL for the blob
-  //     const url = window.URL.createObjectURL(blob);
-  //     const a = document.createElement("a");
-  //     a.style.display = "none"; // The link doesn't need to be visible
-  //     a.href = url;
-
-  //     // **THE FIX**: Use the correct 'filename' variable here
-  //     a.download = filename;
-
-  //     document.body.appendChild(a);
-  //     a.click(); // Programmatically click the link to trigger the download
-
-  //     // Clean up the temporary URL and link element
-  //     window.URL.revokeObjectURL(url);
-  //     document.body.removeChild(a);
-
-  //     // Update the UI state to show the download was successful
-  //     setReceiveFileData({
-  //       name: filename,
-  //       type: contentType,
-  //       size: size,
-  //     });
-
-  //     toast.success("Download started successfully!");
-  //   } catch (error) {
-  //     console.error("Error receiving file:", error);
-  //     // Display the user-friendly error message from the API call
-  //     const errorMessage =
-  //       error.message ||
-  //       "Download failed. Please check the code and try again.";
-  //     setReceiveError(errorMessage);
-  //     toast.error(errorMessage);
-  //   } finally {
-  //     setIsFetching(false);
-  //   }
-  // };
-
-  // src/components/HeroSection.js
-
   const handleReceive = async () => {
     setIsFetching(true);
     setReceiveError("");
     setReceiveFileData(null);
 
     try {
-      // 1. Call the API function which returns an array.
-      const fileDataArray = await downloadFile(receiveCode);
+      const { blob, filename, contentType, originalFileName, size } =
+        await downloadFile(receiveCode);
 
-      // 2. Check if we received a valid array with at least one item.
-      if (!fileDataArray || fileDataArray.length === 0) {
-        throw new Error("Received empty or invalid response from the server.");
+      // Verify blob before creating URL
+      if (!blob || !(blob instanceof Blob)) {
+        throw new Error("Invalid file data");
       }
 
-      // 3. Get the file object from the first position in the array.
-      const fileInfo = fileDataArray[0];
-
-      // 4. Destructure the details from the file object.
-      const { blob, originalFileName, size, contentType } = fileInfo;
-
-      // 5. Create a temporary link to trigger the browser download.
+      // Create download link
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.style.display = "none";
       a.href = url;
-      a.download = originalFileName; // Use the correct filename from the object
+      a.download = originalFileName; // Use original filename for download
       document.body.appendChild(a);
       a.click();
 
-      // 6. Clean up the temporary link and URL.
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
+      // Cleanup
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      }, 100);
 
-      // 7. Update the UI state to confirm the download.
+      // Update UI state with original filename
       setReceiveFileData({
-        name: originalFileName,
+        name: originalFileName, // Use original filename here
+        originalFileName, // Keep original name separate if needed
         type: contentType,
         size: size,
+        url, // Optional: keep download URL if needed
       });
 
-      toast.success("Download started successfully!");
+      toast.success("File downloaded successfully!");
     } catch (error) {
-      // 8. Handle any errors that occur during the process.
       console.error("Error receiving file:", error);
-      const errorMessage =
-        error.message ||
-        "Download failed. Please check the code and try again.";
+      let errorMessage = "Download failed";
+      if (error.message.includes("Network Error")) {
+        errorMessage = "Network connection failed";
+      } else if (error.response?.status === 404) {
+        errorMessage = "File not found";
+      }
       setReceiveError(errorMessage);
       toast.error(errorMessage);
     } finally {
