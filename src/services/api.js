@@ -91,46 +91,52 @@ export const sendFile = async (files) => {
 //   }
 // };
 
+// src/services/api.js
+
 export const downloadFile = async (code) => {
   try {
-    // Make a single request to download the file
-    const response = await apiClient.get(`/download/${code}`, {
+    // Step 1: Fetch file metadata to get the original filename.
+    // NOTE: We are calling `/files/{code}` here to get the JSON data first.
+    // If your metadata endpoint is different (e.g., `/metadata/${code}`), update the path here.
+    const metadataResponse = await apiClient.get(`/files/${code}`);
+
+    const { originalFileName } = metadataResponse.data;
+
+    // If the original filename isn't found in the response, throw an error.
+    if (!originalFileName) {
+      throw new Error(
+        "Could not find the original filename in the server response."
+      );
+    }
+
+    // Step 2: Now that we have the name, download the actual file from the download URL.
+    const fileResponse = await apiClient.get(`/download/${code}`, {
       responseType: "blob",
     });
 
-    // Verify we received a valid file blob
-    if (!(response.data instanceof Blob)) {
+    // Verify the response is a valid file.
+    if (!(fileResponse.data instanceof Blob)) {
       throw new Error("Invalid file data received from server.");
     }
 
-    // Extract filename from the 'Content-Disposition' header
-    let filename = `file-${code}`; // A fallback filename
-    const contentDisposition = response.headers["content-disposition"];
+    console.log(
+      `Success! Filename: "${originalFileName}", Size: ${fileResponse.data.size} bytes`
+    );
 
-    if (contentDisposition) {
-      const filenameMatch = contentDisposition.match(/filename="(.+)"/i);
-      if (filenameMatch && filenameMatch[1]) {
-        filename = decodeURIComponent(filenameMatch[1]);
-      }
-    }
-
-    console.log("File to download:", filename);
-
-    // Return the blob and the correctly determined filename
+    // Return the file blob and the correct filename from the metadata.
     return {
-      blob: response.data,
-      filename: filename,
+      blob: fileResponse.data,
+      filename: originalFileName, // ✅ Use the name from the metadata
       contentType:
-        response.headers["content-type"] || "application/octet-stream",
-      size: response.data.size,
+        fileResponse.headers["content-type"] || "application/octet-stream",
+      size: fileResponse.data.size,
     };
   } catch (error) {
     console.error("Download error:", error);
     if (error.response?.status === 404) {
-      // Provide a user-friendly error for 404s
       throw new Error("File not found. The code may be invalid or expired.");
     }
-    // Re-throw other errors
+    // Re-throw other errors to be handled by the component.
     throw error;
   }
 };
