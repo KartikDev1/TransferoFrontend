@@ -92,49 +92,82 @@ export const sendFile = async (files) => {
 // };
 
 // src/services/api.js
+// src/services/api.js
 
 export const downloadFile = async (code) => {
+  console.log(`[1/5] Starting download process for code: ${code}`);
   try {
     // Step 1: Fetch file metadata to get the original filename.
-    // NOTE: We are calling `/files/{code}` here to get the JSON data first.
-    // If your metadata endpoint is different (e.g., `/metadata/${code}`), update the path here.
+    console.log(`[2/5] Attempting to fetch metadata from: /files/${code}`);
     const metadataResponse = await apiClient.get(`/files/${code}`);
+
+    console.log(
+      "[3/5] Metadata request successful. Response object:",
+      metadataResponse
+    );
+
+    // Make sure we have data to inspect
+    if (!metadataResponse.data) {
+      console.error('[ERROR] The metadata response has no "data" property.');
+      throw new Error("Received an empty metadata response from the server.");
+    }
+
+    console.log("[3/5] Raw metadata content:", metadataResponse.data);
 
     const { originalFileName } = metadataResponse.data;
 
-    // If the original filename isn't found in the response, throw an error.
     if (!originalFileName) {
+      console.error(
+        '[ERROR] "originalFileName" was not found in the metadata response.',
+        metadataResponse.data
+      );
       throw new Error(
         "Could not find the original filename in the server response."
       );
     }
+
+    console.log(
+      `[4/5] Found filename: "${originalFileName}". Now fetching the file blob from /download/${code}`
+    );
 
     // Step 2: Now that we have the name, download the actual file from the download URL.
     const fileResponse = await apiClient.get(`/download/${code}`, {
       responseType: "blob",
     });
 
-    // Verify the response is a valid file.
     if (!(fileResponse.data instanceof Blob)) {
+      console.error(
+        "[ERROR] The response from /download/${code} was not a Blob."
+      );
       throw new Error("Invalid file data received from server.");
     }
 
     console.log(
-      `Success! Filename: "${originalFileName}", Size: ${fileResponse.data.size} bytes`
+      `[5/5] Success! Returning blob and filename: "${originalFileName}"`
     );
 
     // Return the file blob and the correct filename from the metadata.
     return {
       blob: fileResponse.data,
-      filename: originalFileName, // ✅ Use the name from the metadata
+      filename: originalFileName,
       contentType:
         fileResponse.headers["content-type"] || "application/octet-stream",
       size: fileResponse.data.size,
     };
   } catch (error) {
-    console.error("Download error:", error);
+    console.error("[FATAL ERROR] The download process failed.", error);
+
+    // Log detailed Axios error information if available
+    if (error.response) {
+      console.error("Error Status:", error.response.status);
+      console.error("Error Data:", error.response.data);
+      console.error("Error Headers:", error.response.headers);
+    }
+
     if (error.response?.status === 404) {
-      throw new Error("File not found. The code may be invalid or expired.");
+      throw new Error(
+        "File not found. The API endpoint might be wrong or the code is invalid."
+      );
     }
     // Re-throw other errors to be handled by the component.
     throw error;
