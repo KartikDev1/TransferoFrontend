@@ -243,6 +243,54 @@ export default function HeroSection() {
   //   }
   // };
 
+  // const handleReceive = async () => {
+  //   setIsFetching(true);
+  //   setReceiveError("");
+  //   setReceiveFileData(null);
+
+  //   try {
+  //     // Destructure 'filename' from the API response
+  //     const { blob, filename, size, contentType } = await downloadFile(
+  //       receiveCode
+  //     );
+
+  //     // Create a temporary URL for the blob
+  //     const url = window.URL.createObjectURL(blob);
+  //     const a = document.createElement("a");
+  //     a.style.display = "none"; // The link doesn't need to be visible
+  //     a.href = url;
+
+  //     // **THE FIX**: Use the correct 'filename' variable here
+  //     a.download = filename;
+
+  //     document.body.appendChild(a);
+  //     a.click(); // Programmatically click the link to trigger the download
+
+  //     // Clean up the temporary URL and link element
+  //     window.URL.revokeObjectURL(url);
+  //     document.body.removeChild(a);
+
+  //     // Update the UI state to show the download was successful
+  //     setReceiveFileData({
+  //       name: filename,
+  //       type: contentType,
+  //       size: size,
+  //     });
+
+  //     toast.success("Download started successfully!");
+  //   } catch (error) {
+  //     console.error("Error receiving file:", error);
+  //     // Display the user-friendly error message from the API call
+  //     const errorMessage =
+  //       error.message ||
+  //       "Download failed. Please check the code and try again.";
+  //     setReceiveError(errorMessage);
+  //     toast.error(errorMessage);
+  //   } finally {
+  //     setIsFetching(false);
+  //   }
+  // };
+
   // src/components/HeroSection.js
 
   const handleReceive = async () => {
@@ -251,28 +299,25 @@ export default function HeroSection() {
     setReceiveFileData(null);
 
     try {
-      // Destructure 'filename' from the API response
-      const { blob, filename, size, contentType } = await downloadFile(
-        receiveCode
-      );
+      // 🟨 OLD CODE
+      // const { blob, filename, size, contentType } = await downloadFile(receiveCode);
 
-      // Create a temporary URL for the blob
+      // ✅ NEW CODE: Expect an array and take the first item.
+      const fileDataArray = await downloadFile(receiveCode);
+      const { blob, filename, size, contentType } = fileDataArray[0];
+
+      // The rest of your function stays the same...
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.style.display = "none"; // The link doesn't need to be visible
+      a.style.display = "none";
       a.href = url;
-
-      // **THE FIX**: Use the correct 'filename' variable here
       a.download = filename;
-
       document.body.appendChild(a);
-      a.click(); // Programmatically click the link to trigger the download
+      a.click();
 
-      // Clean up the temporary URL and link element
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
 
-      // Update the UI state to show the download was successful
       setReceiveFileData({
         name: filename,
         type: contentType,
@@ -282,7 +327,6 @@ export default function HeroSection() {
       toast.success("Download started successfully!");
     } catch (error) {
       console.error("Error receiving file:", error);
-      // Display the user-friendly error message from the API call
       const errorMessage =
         error.message ||
         "Download failed. Please check the code and try again.";
