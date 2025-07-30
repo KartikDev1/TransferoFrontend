@@ -20,8 +20,7 @@ import QRCode from "react-qr-code";
 import { toast, Toaster } from "react-hot-toast";
 import Confetti from "react-confetti";
 
-
-import { sendFile, downloadFile } from "../services/api"
+import { sendFile, downloadFile } from "../services/api";
 
 // A more dynamic and engaging animated logo
 const AnimatedLogo = () => {
@@ -162,7 +161,6 @@ export default function HeroSection() {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-
   //Production - handleSend {************YE DEKHNA H TUJE**************}
   const handleSend = async () => {
     if (!selectedFiles.length) return;
@@ -187,59 +185,107 @@ export default function HeroSection() {
     }
   };
 
-
   const handleCopyCode = (code) => {
     navigator.clipboard.writeText(code);
     toast.success("Code copied to clipboard!");
   };
 
-
   //Production - handleReceive {************YE DEKHNA H TUJE**************}
+  // const handleReceive = async () => {
+  //   setIsFetching(true);
+  //   setReceiveError("");
+  //   setReceiveFileData(null);
+
+  //   try {
+  //     const { blob, filename, contentType, originalFileName, size } = await downloadFile(receiveCode);
+
+  //     // Verify blob before creating URL
+  //     if (!blob || !(blob instanceof Blob)) {
+  //       throw new Error('Invalid file data');
+  //     }
+
+  //     // Create download link
+  //     const url = window.URL.createObjectURL(blob);
+  //     const a = document.createElement('a');
+  //     a.href = url;
+  //     a.download = originalFileName; // Use original filename for download
+  //     document.body.appendChild(a);
+  //     a.click();
+
+  //     // Cleanup
+  //     setTimeout(() => {
+  //       window.URL.revokeObjectURL(url);
+  //       document.body.removeChild(a);
+  //     }, 100);
+
+  //     // Update UI state with original filename
+  //     setReceiveFileData({
+  //       name: originalFileName, // Use original filename here
+  //       originalFileName, // Keep original name separate if needed
+  //       type: contentType,
+  //       size: size,
+  //       url // Optional: keep download URL if needed
+  //     });
+
+  //     toast.success("File downloaded successfully!");
+  //   } catch (error) {
+  //     console.error("Error receiving file:", error);
+  //     let errorMessage = "Download failed";
+  //     if (error.message.includes('Network Error')) {
+  //       errorMessage = "Network connection failed";
+  //     } else if (error.response?.status === 404) {
+  //       errorMessage = "File not found";
+  //     }
+  //     setReceiveError(errorMessage);
+  //     toast.error(errorMessage);
+  //   } finally {
+  //     setIsFetching(false);
+  //   }
+  // };
+
+  // src/components/HeroSection.js
+
   const handleReceive = async () => {
     setIsFetching(true);
     setReceiveError("");
     setReceiveFileData(null);
 
     try {
-      const { blob, filename, contentType, originalFileName, size } = await downloadFile(receiveCode);
+      // Destructure 'filename' from the API response
+      const { blob, filename, size, contentType } = await downloadFile(
+        receiveCode
+      );
 
-      // Verify blob before creating URL
-      if (!blob || !(blob instanceof Blob)) {
-        throw new Error('Invalid file data');
-      }
-
-      // Create download link
+      // Create a temporary URL for the blob
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
+      a.style.display = "none"; // The link doesn't need to be visible
       a.href = url;
-      a.download = originalFileName; // Use original filename for download
+
+      // **THE FIX**: Use the correct 'filename' variable here
+      a.download = filename;
+
       document.body.appendChild(a);
-      a.click();
+      a.click(); // Programmatically click the link to trigger the download
 
-      // Cleanup
-      setTimeout(() => {
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      }, 100);
+      // Clean up the temporary URL and link element
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
 
-      // Update UI state with original filename
+      // Update the UI state to show the download was successful
       setReceiveFileData({
-        name: originalFileName, // Use original filename here
-        originalFileName, // Keep original name separate if needed
+        name: filename,
         type: contentType,
         size: size,
-        url // Optional: keep download URL if needed
       });
 
-      toast.success("File downloaded successfully!");
+      toast.success("Download started successfully!");
     } catch (error) {
       console.error("Error receiving file:", error);
-      let errorMessage = "Download failed";
-      if (error.message.includes('Network Error')) {
-        errorMessage = "Network connection failed";
-      } else if (error.response?.status === 404) {
-        errorMessage = "File not found";
-      }
+      // Display the user-friendly error message from the API call
+      const errorMessage =
+        error.message ||
+        "Download failed. Please check the code and try again.";
       setReceiveError(errorMessage);
       toast.error(errorMessage);
     } finally {
@@ -281,7 +327,6 @@ export default function HeroSection() {
       description: "Works seamlessly across all devices and browsers.",
     },
   ];
-
 
   console.log("downloadData =>", downloadData);
 
@@ -424,10 +469,11 @@ export default function HeroSection() {
                     </h2>
 
                     <div
-                      className={`relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300 ${isDragging
-                        ? "border-primary bg-primary/10 scale-105"
-                        : "border-base-300 hover:border-primary"
-                        }`}
+                      className={`relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300 ${
+                        isDragging
+                          ? "border-primary bg-primary/10 scale-105"
+                          : "border-base-300 hover:border-primary"
+                      }`}
                       onClick={() =>
                         !isUploading && fileInputRef.current.click()
                       }
@@ -441,8 +487,9 @@ export default function HeroSection() {
                         transition={{ type: "spring" }}
                       >
                         <Upload
-                          className={`w-10 h-10 mx-auto mb-3 transition-colors ${isDragging ? "text-primary" : "text-gray-400"
-                            }`}
+                          className={`w-10 h-10 mx-auto mb-3 transition-colors ${
+                            isDragging ? "text-primary" : "text-gray-400"
+                          }`}
                         />
                       </motion.div>
                       <p className="font-semibold text-base-content">
@@ -499,7 +546,8 @@ export default function HeroSection() {
                       {isUploading ? (
                         <Loader2 className="w-5 h-5 animate-spin" />
                       ) : (
-                        `Send ${selectedFiles.length || ""} File${selectedFiles.length !== 1 ? "s" : ""
+                        `Send ${selectedFiles.length || ""} File${
+                          selectedFiles.length !== 1 ? "s" : ""
                         }`
                       )}
                     </button>
@@ -515,7 +563,9 @@ export default function HeroSection() {
                     <div className="inline-flex items-center justify-center w-20 h-20 bg-success/10 rounded-full">
                       <CheckCircle2 className="w-10 h-10 text-success" />
                     </div>
-                    <h2 className="text-2xl font-bold">Files Sent Successfully!</h2>
+                    <h2 className="text-2xl font-bold">
+                      Files Sent Successfully!
+                    </h2>
                     <p className="text-base-content/70 -mt-4">
                       Scan the QR code or share the code below.
                     </p>
@@ -527,7 +577,9 @@ export default function HeroSection() {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-center space-y-6"
                       >
-                        <h2 className="text-2xl font-bold">Share this code or scan QR</h2>
+                        <h2 className="text-2xl font-bold">
+                          Share this code or scan QR
+                        </h2>
 
                         {downloadData.qrCodeBase64 ? (
                           <div className="p-2 bg-white rounded-lg inline-block">
@@ -546,7 +598,9 @@ export default function HeroSection() {
                             <span>{downloadData.shortCode}</span>
                             <button
                               onClick={() => {
-                                navigator.clipboard.writeText(downloadData.shortCode);
+                                navigator.clipboard.writeText(
+                                  downloadData.shortCode
+                                );
                                 toast.success("Code copied!");
                               }}
                               className="btn btn-ghost btn-sm btn-circle"
@@ -557,7 +611,6 @@ export default function HeroSection() {
                         )}
                       </motion.div>
                     )}
-
 
                     <button
                       onClick={resetSendModal}
