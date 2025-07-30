@@ -99,7 +99,7 @@ export const downloadFile = async (code) => {
     // Step 1: Fetch file metadata to get the original filename.
     // NOTE: We are calling `/files/{code}` here to get the JSON data first.
     // If your metadata endpoint is different (e.g., `/metadata/${code}`), update the path here.
-    const metadataResponse = await apiClient.get(`/files/${code}`);
+    const metadataResponse = await apiClient.get(`/download/${code}`);
 
     const { originalFileName } = metadataResponse.data;
 
