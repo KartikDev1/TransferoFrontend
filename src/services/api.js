@@ -101,7 +101,8 @@ export const downloadFile = async (code) => {
     // If your metadata endpoint is different (e.g., `/metadata/${code}`), update the path here.
     const metadataResponse = await apiClient.get(`/download/${code}`);
 
-    const { originalFileName } = metadataResponse.data;
+    // const { originalFileName } = metadataResponse.data;
+    const { fileName: originalFileName } = metadataResponse.data;
 
     // If the original filename isn't found in the response, throw an error.
     if (!originalFileName) {
