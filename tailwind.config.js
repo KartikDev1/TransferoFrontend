@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "class", // 👈 ADD THIS LINE
   theme: {
     extend: {
       colors: {
@@ -22,6 +23,6 @@ module.exports = {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["light"], // 👈 use only light theme
+    themes: ["light"], // 👈 you can keep both light/dark themes
   },
 };

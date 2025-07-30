@@ -10,6 +10,22 @@ const apiClient = axios.create({
  * API Contract: POST /files
  */
 // api.js
+//PREVIOUS---
+// export const sendFile = async (files) => {
+//   const formData = new FormData();
+//   files.forEach((file) => {
+//     formData.append("file", file); // multiple files with field "files"
+//   });
+
+//   const response = await apiClient.post("/upload", formData, {
+//     headers: {
+//       "Content-Type": "multipart/form-data",
+//     },
+//   });
+
+//   return response.data; // this will be the single file metadata object (not array)
+// };
+
 export const sendFile = async (files) => {
   const formData = new FormData();
   files.forEach((file) => {
@@ -22,7 +38,7 @@ export const sendFile = async (files) => {
     },
   });
 
-  return response.data; // this will be the single file metadata object (not array)
+  return response.data; // this will be the single file metadata object (not array)
 };
 
 /**

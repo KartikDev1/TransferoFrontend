@@ -13,6 +13,8 @@ import {
   Loader2,
   Copy,
   Share2,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
@@ -22,7 +24,6 @@ import Confetti from "react-confetti";
 
 import { sendFile, downloadFile } from "../services/api";
 
-// A more dynamic and engaging animated logo
 const AnimatedLogo = () => {
   return (
     <motion.div
@@ -51,7 +52,6 @@ const AnimatedLogo = () => {
   );
 };
 
-// File Preview with smoother animation
 const FilePreviewItem = ({ file, onRemove }) => {
   return (
     <motion.div
@@ -81,7 +81,6 @@ const FilePreviewItem = ({ file, onRemove }) => {
   );
 };
 
-// Feature cards with a refined hover effect
 const FeatureCard = ({ icon, title, description }) => {
   const IconComponent = icon;
   return (
@@ -113,7 +112,9 @@ export default function HeroSection() {
   const [isDragging, setIsDragging] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
+  const [currentQrIndex, setCurrentQrIndex] = useState(0);
   const fileInputRef = useRef(null);
+  const qrContainerRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -123,6 +124,55 @@ export default function HeroSection() {
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    if (!qrContainerRef.current || !downloadData || downloadData.length <= 1)
+      return;
+
+    const container = qrContainerRef.current;
+    let startX = 0;
+    let isSwiping = false;
+
+    const handleTouchStart = (e) => {
+      startX = e.touches[0].clientX;
+      isSwiping = true;
+    };
+
+    const handleTouchMove = (e) => {
+      if (!isSwiping) return;
+      const currentX = e.touches[0].clientX;
+      const diff = startX - currentX;
+
+      if (Math.abs(diff) > 50) {
+        isSwiping = false;
+        if (diff > 0) {
+          handleNextQr();
+        } else {
+          handlePrevQr();
+        }
+      }
+    };
+
+    container.addEventListener("touchstart", handleTouchStart);
+    container.addEventListener("touchmove", handleTouchMove);
+
+    return () => {
+      container.removeEventListener("touchstart", handleTouchStart);
+      container.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, [downloadData]);
+
+  const handlePrevQr = () => {
+    setCurrentQrIndex((prev) =>
+      prev === 0 ? downloadData.length - 1 : prev - 1
+    );
+  };
+
+  const handleNextQr = () => {
+    setCurrentQrIndex((prev) =>
+      prev === downloadData.length - 1 ? 0 : prev + 1
+    );
+  };
 
   const handleDragEnter = (e) => {
     e.preventDefault();
@@ -154,14 +204,13 @@ export default function HeroSection() {
     const files = Array.from(e.target.files);
     setSelectedFiles((prev) => [...prev, ...files]);
     toast.success(`${files.length} file(s) added!`);
-    e.target.value = null; // Reset input value
+    e.target.value = null;
   };
 
   const removeFile = (index) => {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  //Production - handleSend {************YE DEKHNA H TUJE**************}
   const handleSend = async () => {
     if (!selectedFiles.length) return;
 
@@ -171,8 +220,8 @@ export default function HeroSection() {
       const responseData = await sendFile(selectedFiles);
       console.log("ResponseData from sendFile =>", responseData);
 
-      setDownloadData(responseData[0]);
-
+      setDownloadData(responseData);
+      setCurrentQrIndex(0);
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 4000);
     } catch (error) {
@@ -190,7 +239,6 @@ export default function HeroSection() {
     toast.success("Code copied to clipboard!");
   };
 
-  //Production - handleReceive {************YE DEKHNA H TUJE**************}
   const handleReceive = async () => {
     setIsFetching(true);
     setReceiveError("");
@@ -200,32 +248,28 @@ export default function HeroSection() {
       const { blob, filename, contentType, originalFileName, size } =
         await downloadFile(receiveCode);
 
-      // Verify blob before creating URL
       if (!blob || !(blob instanceof Blob)) {
         throw new Error("Invalid file data");
       }
 
-      // Create download link
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = originalFileName; // Use original filename for download
+      a.download = originalFileName;
       document.body.appendChild(a);
       a.click();
 
-      // Cleanup
       setTimeout(() => {
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
       }, 100);
 
-      // Update UI state with original filename
       setReceiveFileData({
-        name: originalFileName, // Use original filename here
-        originalFileName, // Keep original name separate if needed
+        name: originalFileName,
+        originalFileName,
         type: contentType,
         size: size,
-        url, // Optional: keep download URL if needed
+        url,
       });
 
       toast.success("File downloaded successfully!");
@@ -249,7 +293,7 @@ export default function HeroSection() {
     setTimeout(() => {
       setDownloadData(null);
       setSelectedFiles([]);
-    }, 300); // delay to allow exit animation
+    }, 300);
   };
 
   const resetReceiveModal = () => {
@@ -279,19 +323,15 @@ export default function HeroSection() {
     },
   ];
 
-  console.log("downloadData =>", downloadData);
-
   return (
     <>
-      {/* <Toaster position="top-center" reverseOrder={false} /> */}
+      <Toaster position="top-center" reverseOrder={false} />
       <section className="relative min-h-screen lg:min-h-[90vh] w-full bg-[#f5f5fc] overflow-hidden px-4 sm:px-6 lg:px-8 py-20 md:py-24">
-        {/* Background Gradients */}
         <div className="absolute top-0 left-0 -translate-x-1/3 -translate-y-1/3 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl -z-10" />
         <div className="absolute bottom-0 right-0 translate-x-1/3 translate-y-1/3 w-[800px] h-[800px] bg-secondary/5 rounded-full blur-3xl -z-10" />
 
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-            {/* Left Content */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
@@ -349,7 +389,6 @@ export default function HeroSection() {
               </motion.div>
             </motion.div>
 
-            {/* Right Content */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -360,7 +399,6 @@ export default function HeroSection() {
             </motion.div>
           </div>
 
-          {/* Features Grid */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -510,7 +548,6 @@ export default function HeroSection() {
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center space-y-6"
                   >
-                    {/* Success icon and header */}
                     <div className="inline-flex items-center justify-center w-20 h-20 bg-success/10 rounded-full">
                       <CheckCircle2 className="w-10 h-10 text-success" />
                     </div>
@@ -521,54 +558,106 @@ export default function HeroSection() {
                       Scan the QR code or share the code below.
                     </p>
 
-                    {downloadData && (
-                      <motion.div
-                        key="success-view"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-center space-y-6"
+                    <div className="relative">
+                      <div
+                        ref={qrContainerRef}
+                        className="overflow-hidden relative"
                       >
-                        <h2 className="text-2xl font-bold">
-                          Share this code or scan QR
-                        </h2>
+                        <motion.div
+                          key={currentQrIndex}
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -20 }}
+                          transition={{ duration: 0.3 }}
+                          className="flex flex-col items-center gap-4"
+                        >
+                          <h3 className="text-lg font-medium">
+                            {downloadData[currentQrIndex].originalFileName ||
+                              `File ${currentQrIndex + 1}`}
+                          </h3>
 
-                        {downloadData.qrCodeBase64 ? (
-                          <div className="p-2 bg-white rounded-lg inline-block">
-                            <img
-                              src={downloadData.qrCodeBase64}
-                              alt="Download QR Code"
-                              className="w-50 h-50"
-                            />
+                          {downloadData[currentQrIndex].qrCodeBase64 ? (
+                            <div className="p-2 bg-white rounded-lg inline-block">
+                              <img
+                                src={downloadData[currentQrIndex].qrCodeBase64}
+                                alt={`QR Code ${downloadData[currentQrIndex].shortCode}`}
+                                className="w-40 h-40"
+                              />
+                            </div>
+                          ) : (
+                            <p className="text-warning">
+                              QR code not available
+                            </p>
+                          )}
+
+                          {downloadData[currentQrIndex].shortCode && (
+                            <div className="bg-primary/10 text-primary font-mono font-bold text-3xl p-4 rounded-lg tracking-widest flex items-center justify-center gap-4">
+                              <span>
+                                {downloadData[currentQrIndex].shortCode}
+                              </span>
+                              <button
+                                onClick={() =>
+                                  handleCopyCode(
+                                    downloadData[currentQrIndex].shortCode
+                                  )
+                                }
+                                className="btn btn-ghost btn-sm btn-circle"
+                              >
+                                <Copy className="w-5 h-5" />
+                              </button>
+                            </div>
+                          )}
+                        </motion.div>
+                      </div>
+
+                      {downloadData.length > 1 && (
+                        <>
+                          <button
+                            onClick={handlePrevQr}
+                            className="absolute left-0 top-1/2 -translate-y-1/2 btn btn-ghost btn-circle"
+                          >
+                            <ChevronLeft className="w-6 h-6" />
+                          </button>
+                          <button
+                            onClick={handleNextQr}
+                            className="absolute right-0 top-1/2 -translate-y-1/2 btn btn-ghost btn-circle"
+                          >
+                            <ChevronRight className="w-6 h-6" />
+                          </button>
+                          <div className="flex justify-center gap-2 mt-4">
+                            {downloadData.map((_, index) => (
+                              <button
+                                key={index}
+                                onClick={() => setCurrentQrIndex(index)}
+                                className={`w-2 h-2 rounded-full ${
+                                  index === currentQrIndex
+                                    ? "bg-primary"
+                                    : "bg-base-300"
+                                }`}
+                              />
+                            ))}
                           </div>
-                        ) : (
-                          <p className="text-warning">QR code not available</p>
-                        )}
+                        </>
+                      )}
+                    </div>
 
-                        {downloadData.shortCode && (
-                          <div className="bg-primary/10 text-primary font-mono font-bold text-3xl p-4 rounded-lg tracking-widest flex items-center justify-center gap-4">
-                            <span>{downloadData.shortCode}</span>
-                            <button
-                              onClick={() => {
-                                navigator.clipboard.writeText(
-                                  downloadData.shortCode
-                                );
-                                toast.success("Code copied!");
-                              }}
-                              className="btn btn-ghost btn-sm btn-circle"
-                            >
-                              <Copy className="w-5 h-5" />
-                            </button>
-                          </div>
-                        )}
-                      </motion.div>
-                    )}
-
-                    <button
-                      onClick={resetSendModal}
-                      className="w-full btn btn-outline"
-                    >
-                      Send More Files
-                    </button>
+                    <div className="flex flex-col gap-3">
+                      <button
+                        onClick={() =>
+                          handleCopyCode(downloadData[currentQrIndex].shortCode)
+                        }
+                        className="btn btn-outline w-full"
+                      >
+                        <Copy className="w-5 h-5" />
+                        Copy Code
+                      </button>
+                      <button
+                        onClick={resetSendModal}
+                        className="w-full btn btn-primary"
+                      >
+                        Send More Files
+                      </button>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -675,8 +764,7 @@ export default function HeroSection() {
 
                     <a
                       href={receiveFileData.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      download={receiveFileData.name}
                       className="w-full btn btn-primary btn-lg"
                     >
                       Download Now

@@ -31,7 +31,7 @@ export default function Navbar() {
                   alt="Transfero Logo"
                   width={40}
                   height={40}
-                  className="w-10 h-10"
+                  className="object-contain"
                 />
               </motion.div>
               <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
