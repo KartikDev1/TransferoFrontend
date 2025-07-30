@@ -311,14 +311,14 @@ export default function HeroSection() {
       const fileInfo = fileDataArray[0];
 
       // 4. Destructure the details from the file object.
-      const { blob, filename, size, contentType } = fileInfo;
+      const { blob, originalFileName, size, contentType } = fileInfo;
 
       // 5. Create a temporary link to trigger the browser download.
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.style.display = "none";
       a.href = url;
-      a.download = filename; // Use the correct filename from the object
+      a.download = originalFileName; // Use the correct filename from the object
       document.body.appendChild(a);
       a.click();
 
@@ -328,7 +328,7 @@ export default function HeroSection() {
 
       // 7. Update the UI state to confirm the download.
       setReceiveFileData({
-        name: filename,
+        name: originalFileName,
         type: contentType,
         size: size,
       });
