@@ -94,51 +94,46 @@ export const sendFile = async (files) => {
 // src/services/api.js
 // src/services/api.js
 
+// src/services/api.js
+
 export const downloadFile = async (code) => {
   try {
-    // Step 1: Fetch file metadata to get the original filename.
-    // NOTE: We are calling `/files/{code}` here to get the JSON data first.
-    // If your metadata endpoint is different (e.g., `/metadata/${code}`), update the path here.
-    const metadataResponse = await apiClient.get(`/download/${code}`);
-
-    // const { originalFileName } = metadataResponse.data;
-    const { fileName: originalFileName } = metadataResponse.data;
-
-    // If the original filename isn't found in the response, throw an error.
-    if (!originalFileName) {
-      throw new Error(
-        "Could not find the original filename in the server response."
-      );
-    }
-
-    // Step 2: Now that we have the name, download the actual file from the download URL.
-    const fileResponse = await apiClient.get(`/download/${code}`, {
-      responseType: "blob",
+    // --- STEP 1: Get metadata by asking the server for JSON ---
+    const metadataResponse = await apiClient.get(`/download/${code}`, {
+      headers: {
+        Accept: "application/json", // Ask for the details
+      },
     });
 
-    // Verify the response is a valid file.
-    if (!(fileResponse.data instanceof Blob)) {
-      throw new Error("Invalid file data received from server.");
+    // The backend returns an array, so we take the first object.
+    const metadata = metadataResponse.data[0];
+
+    if (!metadata || !metadata.originalFileName) {
+      throw new Error("Could not get valid file metadata from server.");
     }
 
-    console.log(
-      `Success! Filename: "${originalFileName}", Size: ${fileResponse.data.size} bytes`
-    );
+    // --- STEP 2: Get the actual file content (the blob) ---
+    const fileResponse = await apiClient.get(`/download/${code}`, {
+      responseType: "blob", // Ask for the file
+    });
 
-    // Return the file blob and the correct filename from the metadata.
-    return {
-      blob: fileResponse.data,
-      filename: originalFileName, // ✅ Use the name from the metadata
-      contentType:
-        fileResponse.headers["content-type"] || "application/octet-stream",
-      size: fileResponse.data.size,
-    };
+    const blob = fileResponse.data;
+
+    if (!(blob instanceof Blob)) {
+      throw new Error("Server did not return a valid file.");
+    }
+
+    // --- STEP 3: Combine everything and return it ---
+    return [
+      {
+        blob: blob,
+        filename: metadata.originalFileName,
+        size: metadata.size,
+        contentType: metadata.contentType,
+      },
+    ];
   } catch (error) {
-    console.error("Download error:", error);
-    if (error.response?.status === 404) {
-      throw new Error("File not found. The code may be invalid or expired.");
-    }
-    // Re-throw other errors to be handled by the component.
+    console.error("[FATAL ERROR] The download process failed.", error);
     throw error;
   }
 };

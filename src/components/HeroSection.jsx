@@ -299,25 +299,34 @@ export default function HeroSection() {
     setReceiveFileData(null);
 
     try {
-      // 🟨 OLD CODE
-      // const { blob, filename, size, contentType } = await downloadFile(receiveCode);
-
-      // ✅ NEW CODE: Expect an array and take the first item.
+      // 1. Call the API function which returns an array.
       const fileDataArray = await downloadFile(receiveCode);
-      const { blob, filename, size, contentType } = fileDataArray[0];
 
-      // The rest of your function stays the same...
+      // 2. Check if we received a valid array with at least one item.
+      if (!fileDataArray || fileDataArray.length === 0) {
+        throw new Error("Received empty or invalid response from the server.");
+      }
+
+      // 3. Get the file object from the first position in the array.
+      const fileInfo = fileDataArray[0];
+
+      // 4. Destructure the details from the file object.
+      const { blob, filename, size, contentType } = fileInfo;
+
+      // 5. Create a temporary link to trigger the browser download.
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.style.display = "none";
       a.href = url;
-      a.download = filename;
+      a.download = filename; // Use the correct filename from the object
       document.body.appendChild(a);
       a.click();
 
+      // 6. Clean up the temporary link and URL.
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
 
+      // 7. Update the UI state to confirm the download.
       setReceiveFileData({
         name: filename,
         type: contentType,
@@ -326,6 +335,7 @@ export default function HeroSection() {
 
       toast.success("Download started successfully!");
     } catch (error) {
+      // 8. Handle any errors that occur during the process.
       console.error("Error receiving file:", error);
       const errorMessage =
         error.message ||
