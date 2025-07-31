@@ -200,8 +200,9 @@ export default function FAQPage() {
           <div className="inline-block bg-white rounded-xl shadow-sm p-6 max-w-2xl">
             <h3 className="text-xl font-semibold mb-3">Still need help?</h3>
             <p className="text-gray-600 mb-4">
-              Can't find what you're looking for? Our team is happy to help.
+                Can&#39;t find what you&#39;re looking for? Our team is happy to help.
             </p>
+
             <a
               href="mailto:transfero1018@gmail.com"
               className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all"
