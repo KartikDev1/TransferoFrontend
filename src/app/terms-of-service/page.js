@@ -40,7 +40,7 @@ export default function TermsPage() {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center justify-center p-4 rounded-full bg-blue-50 mb-6">
-            <FileText size={32} className="text-blue-600" />
+            <FileText size={32} className="text-blue-600" aria-hidden="true" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-500">
@@ -48,9 +48,9 @@ export default function TermsPage() {
             </span>
           </h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-  Please read these terms carefully before using Transfero&#39;s file transfer services.
-</p>
-
+            Please read these terms carefully before using Transfero&apos;s file
+            transfer services.
+          </p>
         </motion.div>
 
         {/* Terms Content */}
@@ -70,10 +70,11 @@ export default function TermsPage() {
               </p>
             </motion.section>
 
+            {/* Sections Start */}
             <motion.section variants={fadeIn}>
               <div className="flex items-start gap-4 mb-4">
                 <div className="p-2 rounded-full bg-green-100 text-green-600 mt-1">
-                  <Check size={18} />
+                  <Check size={18} aria-hidden="true" />
                 </div>
                 <div>
                   <h2 className="text-2xl font-semibold text-gray-800">
@@ -90,7 +91,7 @@ export default function TermsPage() {
             <motion.section variants={fadeIn}>
               <div className="flex items-start gap-4 mb-4">
                 <div className="p-2 rounded-full bg-blue-100 text-blue-600 mt-1">
-                  <Code size={18} />
+                  <Code size={18} aria-hidden="true" />
                 </div>
                 <div>
                   <h2 className="text-2xl font-semibold text-gray-800">
@@ -108,32 +109,23 @@ export default function TermsPage() {
             <motion.section variants={fadeIn}>
               <div className="flex items-start gap-4 mb-4">
                 <div className="p-2 rounded-full bg-yellow-100 text-yellow-600 mt-1">
-                  <AlertTriangle size={18} />
+                  <AlertTriangle size={18} aria-hidden="true" />
                 </div>
                 <div>
                   <h2 className="text-2xl font-semibold text-gray-800">
                     3. User Conduct
                   </h2>
-                  <ul className="mt-3 space-y-2 pl-2">
-                    <li className="flex items-start gap-2">
-                      <span className="text-yellow-500">•</span>
-                      <span>
-                        Do not upload harmful, illegal, or copyrighted content
-                        without permission
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-yellow-500">•</span>
-                      <span>
-                        Do not use Transfero to spam, harass, or exploit others
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-yellow-500">•</span>
-                      <span>
-                        You are responsible for the content you upload and share
-                      </span>
-                    </li>
+                  <ul className="mt-3 space-y-2 pl-2 list-none">
+                    {[
+                      "Do not upload harmful, illegal, or copyrighted content without permission",
+                      "Do not use Transfero to spam, harass, or exploit others",
+                      "You are responsible for the content you upload and share",
+                    ].map((rule, index) => (
+                      <li key={index} className="flex items-start gap-2">
+                        <span className="text-yellow-500">•</span>
+                        <span>{rule}</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -142,7 +134,7 @@ export default function TermsPage() {
             <motion.section variants={fadeIn}>
               <div className="flex items-start gap-4 mb-4">
                 <div className="p-2 rounded-full bg-red-100 text-red-600 mt-1">
-                  <Trash2 size={18} />
+                  <Trash2 size={18} aria-hidden="true" />
                 </div>
                 <div>
                   <h2 className="text-2xl font-semibold text-gray-800">
@@ -160,7 +152,7 @@ export default function TermsPage() {
             <motion.section variants={fadeIn}>
               <div className="flex items-start gap-4 mb-4">
                 <div className="p-2 rounded-full bg-purple-100 text-purple-600 mt-1">
-                  <Shield size={18} />
+                  <Shield size={18} aria-hidden="true" />
                 </div>
                 <div>
                   <h2 className="text-2xl font-semibold text-gray-800">
@@ -188,6 +180,7 @@ export default function TermsPage() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    aria-hidden="true"
                   >
                     <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
                     <line x1="12" y1="9" x2="12" y2="13"></line>
@@ -199,9 +192,10 @@ export default function TermsPage() {
                     6. Limitation of Liability
                   </h2>
                   <p className="mt-3 text-gray-700">
-                      Transfero is provided "as-is" without warranties. We are not liable for any damages or loss arising from use of our service.
-                </p>
-
+                    Transfero is provided &quot;as-is&quot; without warranties.
+                    We are not liable for any damages or loss arising from use
+                    of our service.
+                  </p>
                 </div>
               </div>
             </motion.section>
@@ -209,7 +203,7 @@ export default function TermsPage() {
             <motion.section variants={fadeIn}>
               <div className="flex items-start gap-4 mb-4">
                 <div className="p-2 rounded-full bg-indigo-100 text-indigo-600 mt-1">
-                  <RefreshCw size={18} />
+                  <RefreshCw size={18} aria-hidden="true" />
                 </div>
                 <div>
                   <h2 className="text-2xl font-semibold text-gray-800">
@@ -226,7 +220,7 @@ export default function TermsPage() {
             <motion.section variants={fadeIn}>
               <div className="flex items-start gap-4 mb-4">
                 <div className="p-2 rounded-full bg-blue-100 text-blue-600 mt-1">
-                  <Scale size={18} />
+                  <Scale size={18} aria-hidden="true" />
                 </div>
                 <div>
                   <h2 className="text-2xl font-semibold text-gray-800">
@@ -243,7 +237,7 @@ export default function TermsPage() {
             <motion.section variants={fadeIn}>
               <div className="flex items-start gap-4">
                 <div className="p-2 rounded-full bg-gray-100 text-gray-600 mt-1">
-                  <Mail size={18} />
+                  <Mail size={18} aria-hidden="true" />
                 </div>
                 <div>
                   <h2 className="text-2xl font-semibold text-gray-800">
