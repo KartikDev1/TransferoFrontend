@@ -48,9 +48,9 @@ export default function TermsPage() {
             </span>
           </h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Please read these terms carefully before using Transfero's file
-            transfer services.
-          </p>
+  Please read these terms carefully before using Transfero&#39;s file transfer services.
+</p>
+
         </motion.div>
 
         {/* Terms Content */}
@@ -199,10 +199,9 @@ export default function TermsPage() {
                     6. Limitation of Liability
                   </h2>
                   <p className="mt-3 text-gray-700">
-                    Transfero is provided "as-is" without warranties. We are not
-                    liable for any damages or loss arising from use of our
-                    service.
-                  </p>
+                      Transfero is provided "as-is" without warranties. We are not liable for any damages or loss arising from use of our service.
+                </p>
+
                 </div>
               </div>
             </motion.section>
