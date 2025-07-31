@@ -19,7 +19,7 @@ export default function AppWrapper({ children }) {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen">{children}</main>
+      <main className="min-h-screen ">{children}</main>
       <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
     </>
   );
