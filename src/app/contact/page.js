@@ -40,9 +40,9 @@ const ContactPage = () => {
             </span>
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Get in touch with our team. We're here to help with any questions
-            you might have.
+              Get in touch with our team. We&#39;re here to help with any questions you might have.
           </p>
+  
         </motion.div>
 
         <div className="flex flex-col lg:flex-row gap-8 items-center">
