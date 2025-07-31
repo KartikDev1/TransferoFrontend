@@ -111,7 +111,7 @@ export default function FAQPage() {
             </span>
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Find quick answers to common questions about Transfero
+            Find quick answers to common questions about Transferoo
           </p>
         </motion.div>
 
