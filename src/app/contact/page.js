@@ -137,7 +137,7 @@ const ContactPage = () => {
                         href="mailto:transfero1080@gmail.com"
                         className="text-blue-600 hover:text-blue-800 flex items-center gap-1 transition-colors"
                       >
-                        transfero1080@gmail.com <ArrowRight size={16} />
+                        transfero1018@gmail.com <ArrowRight size={16} />
                       </a>
                     </div>
                   </div>
