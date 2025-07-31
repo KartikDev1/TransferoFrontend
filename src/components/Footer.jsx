@@ -38,7 +38,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/terms">
+                <Link href="/terms-of-service">
                   <span className="hover:text-indigo-600">
                     Terms & Conditions
                   </span>
@@ -102,7 +102,7 @@ const Footer = () => {
                 <Facebook size={20} />
               </a>
               <a
-                href="mailto:support@transfero.in"
+                href="mailto: transfero1018@gmail.com"
                 className="hover:text-indigo-600"
               >
                 <Mail size={20} />
