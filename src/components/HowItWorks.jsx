@@ -40,7 +40,7 @@ const HowItWorks = () => {
     },
     {
       title: "Auto-Delete",
-      description: "Files expire automatically after 24 hours for privacy.",
+      description: "Files expire automatically after 5 mins for privacy.",
       icon: <Clock className="w-10 h-10" />,
       color: "text-rose-500",
     },

@@ -358,7 +358,7 @@ export default function HeroSection() {
                 className="text-lg md:text-xl text-base-content/70 max-w-lg mx-auto lg:mx-0"
               >
                 Secure, fast, and simple file sharing with end-to-end
-                encryption. No accounts needed. Free for files up to 10GB.
+                encryption. No accounts needed. Free for files up to 50MB.
               </motion.p>
 
               <motion.div
@@ -487,7 +487,7 @@ export default function HeroSection() {
                           : "Drag & drop files or click to browse"}
                       </p>
                       <p className="text-sm text-base-content/60 mt-1">
-                        Max file size: 10GB
+                        Max file size: 50MB
                       </p>
                       <input
                         ref={fileInputRef}
