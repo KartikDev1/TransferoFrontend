@@ -23,18 +23,18 @@ export const metadata = {
     "no sign up file sharing",
     "encrypted file transfer",
   ],
-  authors: [{ name: "Transfero Team", url: "https://transfero.vercel.app" }],
+  authors: [{ name: "Transfero Team", url: "https://transfero.in" }],
   creator: "Transfero",
-  metadataBase: new URL("https://transfero.vercel.app"),
+  metadataBase: new URL("https://transfero.in"), // updated to custom domain
   openGraph: {
     title: "Transfero - Secure File Sharing & File Transfer Tool",
     description:
       "Send and receive files securely with QR codes and short links using Transfero. Simple, fast, and free.",
-    url: "https://transfero.vercel.app",
+    url: "https://transfero.in",
     siteName: "Transfero",
     images: [
       {
-        url: "/transfero-logo2.png", // <-- Replace with your actual OG image path
+        url: "https://transfero.in/transfero-logo2.png", // must be a real image hosted on domain
         width: 1200,
         height: 630,
         alt: "Transfero - File Sharing",
@@ -48,8 +48,8 @@ export const metadata = {
     title: "Transfero - Secure File Sharing",
     description:
       "Transfer files instantly and privately with Transfero. QR code, link sharing, and no sign-up required.",
-    creator: "@yourhandle", // Optional
-    images: ["/transfero-logo2.png"], // Replace with your real path
+    creator: "@yourhandle", // optional: replace with real Twitter handle
+    images: ["https://transfero.in/transfero-logo2.png"],
   },
 };
 
@@ -58,6 +58,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.ico" />
+        <meta name="theme-color" content="#ffffff" />
       </head>
       <body className={`${manrope.className} bg-[#f5f5fc] text-gray-800`}>
         <AppWrapper>
