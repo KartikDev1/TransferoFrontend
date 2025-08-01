@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://transfero.in
+
+# Sitemaps
+Sitemap: https://transfero.in/sitemap.xml
