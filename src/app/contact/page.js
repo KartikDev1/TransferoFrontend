@@ -40,9 +40,9 @@ const ContactPage = () => {
             </span>
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Get in touch with our team. We&#39;re here to help with any questions you might have.
+            Get in touch with our team. We&#39;re here to help with any
+            questions you might have.
           </p>
-  
         </motion.div>
 
         <div className="flex flex-col lg:flex-row gap-8 items-center">
@@ -86,7 +86,7 @@ const ContactPage = () => {
                     </label>
                     <input
                       type="text"
-                      placeholder="John Doe"
+                      placeholder="Rahul Sharma"
                       className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                     />
                   </div>
@@ -97,7 +97,7 @@ const ContactPage = () => {
                     </label>
                     <input
                       type="email"
-                      placeholder="john@example.com"
+                      placeholder="rahul@example.com"
                       className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                     />
                   </div>
