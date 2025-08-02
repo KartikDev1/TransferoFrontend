@@ -101,3 +101,44 @@ export const downloadFile = async (code) => {
     throw error;
   }
 };
+
+export const downloadGroup = async (groupCode) => {
+  try {
+    groupCode = groupCode.trim().toUpperCase();
+
+    const response = await apiClient.get(`/download/group/${groupCode}`, {
+      responseType: "blob", // Ensure you get a binary response
+    });
+
+    if (!(response.data instanceof Blob)) {
+      throw new Error("Invalid zip file data received");
+    }
+
+    // Extract filename from content-disposition if available
+    let filename = `Transfero-${groupCode}.zip`;
+    const contentDisposition = response.headers["content-disposition"] || "";
+    const filenameMatch =
+      contentDisposition.match(/filename="?([^"]+)"?/) ||
+      contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
+    if (filenameMatch?.[1]) {
+      filename = decodeURIComponent(filenameMatch[1]);
+    }
+
+    // Trigger browser download
+    const url = window.URL.createObjectURL(response.data);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.style.display = "none";
+    a.rel = "noopener";
+    a.target = "_self";
+
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Group download error:", error);
+    throw error;
+  }
+};

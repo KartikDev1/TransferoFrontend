@@ -24,7 +24,7 @@ import QRCode from "react-qr-code";
 import { toast, Toaster } from "react-hot-toast";
 import Confetti from "react-confetti";
 
-import { sendFile, downloadFile } from "../services/api";
+import { sendFile, downloadFile,downloadGroup } from "../services/api";
 
 const AnimatedLogo = () => {
   return (
@@ -219,52 +219,36 @@ export default function HeroSection() {
   };
 
   const handleGroupDownload = async () => {
-    setIsDownloadingGroup(true);
-    setGroupError("");
-    setReceiveFileData(null);
+  setIsDownloadingGroup(true);
+  setGroupError("");
+  setReceiveFileData(null);
 
-    try {
-      const code = groupCode.trim().toUpperCase();
+  try {
+    const code = groupCode.trim().toUpperCase();
+    await downloadGroup(code); // Let downloadGroup handle the download
+    
+    // For UI feedback if needed
+    setReceiveFileData({
+      name: `Transfero-${code}.zip`,
+      type: "application/zip",
+      url: "#" // Or you could create an object URL if needed
+    });
 
-      const { blob, filename } = await downloadGroup(code);
-
-      if (!blob || !(blob instanceof Blob)) {
-        throw new Error("Invalid group data");
-      }
-
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename || `file-share-group-${code}.zip`;
-      document.body.appendChild(a);
-      a.click();
-
-      setTimeout(() => {
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      }, 100);
-
-      setReceiveFileData({
-        name: filename || `file-share-group-${code}.zip`,
-        type: "application/zip",
-        url,
-      });
-
-      toast.success("Group files downloaded successfully!");
-    } catch (error) {
-      console.error("Error receiving group files:", error);
-      let errorMessage = "Download failed";
-      if (error.message.includes("Network Error")) {
-        errorMessage = "Network connection failed";
-      } else if (error.response?.status === 404) {
-        errorMessage = "Group not found";
-      }
-      setGroupError(errorMessage);
-      toast.error(errorMessage);
-    } finally {
-      setIsDownloadingGroup(false);
+    toast.success("Group files downloaded successfully!");
+  } catch (error) {
+    console.error("Error receiving group files:", error);
+    let errorMessage = "Download failed";
+    if (error.message.includes("Network Error")) {
+      errorMessage = "Network connection failed";
+    } else if (error.response?.status === 404) {
+      errorMessage = "Group not found";
     }
-  };
+    setGroupError(errorMessage);
+    toast.error(errorMessage);
+  } finally {
+    setIsDownloadingGroup(false);
+  }
+};
 
   const handleSend = async () => {
     if (!selectedFiles.length) return;
@@ -518,11 +502,10 @@ export default function HeroSection() {
                     </h2>
 
                     <div
-                      className={`relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300 ${
-                        isDragging
-                          ? "border-primary bg-primary/10 scale-105"
-                          : "border-base-300 hover:border-primary"
-                      }`}
+                      className={`relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300 ${isDragging
+                        ? "border-primary bg-primary/10 scale-105"
+                        : "border-base-300 hover:border-primary"
+                        }`}
                       onClick={() =>
                         !isUploading && fileInputRef.current.click()
                       }
@@ -536,9 +519,8 @@ export default function HeroSection() {
                         transition={{ type: "spring" }}
                       >
                         <Upload
-                          className={`w-10 h-10 mx-auto mb-3 transition-colors ${
-                            isDragging ? "text-primary" : "text-gray-400"
-                          }`}
+                          className={`w-10 h-10 mx-auto mb-3 transition-colors ${isDragging ? "text-primary" : "text-gray-400"
+                            }`}
                         />
                       </motion.div>
                       <p className="font-semibold text-base-content">
@@ -595,8 +577,7 @@ export default function HeroSection() {
                       {isUploading ? (
                         <Loader2 className="w-5 h-5 animate-spin" />
                       ) : (
-                        `Send ${selectedFiles.length || ""} File${
-                          selectedFiles.length !== 1 ? "s" : ""
+                        `Send ${selectedFiles.length || ""} File${selectedFiles.length !== 1 ? "s" : ""
                         }`
                       )}
                     </button>
@@ -619,17 +600,15 @@ export default function HeroSection() {
                     {downloadData.length > 1 && (
                       <div className="tabs tabs-boxed bg-base-200 w-full">
                         <button
-                          className={`tab flex-1 ${
-                            viewMode === "individual" ? "tab-active" : ""
-                          }`}
+                          className={`tab flex-1 ${viewMode === "individual" ? "tab-active" : ""
+                            }`}
                           onClick={() => setViewMode("individual")}
                         >
                           <File className="w-4 h-4 mr-2" /> Individual Files
                         </button>
                         <button
-                          className={`tab flex-1 ${
-                            viewMode === "group" ? "tab-active" : ""
-                          }`}
+                          className={`tab flex-1 ${viewMode === "group" ? "tab-active" : ""
+                            }`}
                           onClick={() => setViewMode("group")}
                         >
                           <Folder className="w-4 h-4 mr-2" /> Group View
@@ -720,20 +699,19 @@ export default function HeroSection() {
                                 Group QR code not available
                               </p>
                             )}
-
-                            {downloadData.groupCode && (
-                              <div className="bg-primary/10 text-primary font-mono font-bold text-3xl p-4 rounded-lg tracking-widest flex items-center justify-center gap-4">
-                                <span>{downloadData.groupCode}</span>
+                            {downloadData[0]?.groupCode && (
+                              <div className="bg-blue-100 text-blue-800 font-mono font-semibold text-lg p-3 rounded-lg flex items-center justify-between max-w-md mx-auto mt-4 shadow">
+                                <span className="tracking-wider">{downloadData[0].groupCode}</span>
                                 <button
-                                  onClick={() =>
-                                    handleCopyCode(downloadData.groupCode)
-                                  }
-                                  className="btn btn-ghost btn-sm btn-circle"
+                                  onClick={() => handleCopyCode(downloadData[0].groupCode)}
+                                  className="btn btn-ghost btn-sm btn-circle tooltip tooltip-left"
+                                  data-tip="Copy group code"
                                 >
                                   <Copy className="w-5 h-5" />
                                 </button>
                               </div>
                             )}
+
 
                             <div className="text-sm text-base-content/70 mt-2">
                               <FileArchive className="w-4 h-4 inline-block mr-1" />
@@ -762,11 +740,10 @@ export default function HeroSection() {
                               <button
                                 key={index}
                                 onClick={() => setCurrentQrIndex(index)}
-                                className={`w-2 h-2 rounded-full ${
-                                  index === currentQrIndex
-                                    ? "bg-primary"
-                                    : "bg-base-300"
-                                }`}
+                                className={`w-2 h-2 rounded-full ${index === currentQrIndex
+                                  ? "bg-primary"
+                                  : "bg-base-300"
+                                  }`}
                               />
                             ))}
                           </div>
@@ -835,17 +812,15 @@ export default function HeroSection() {
 
               <div className="tabs tabs-boxed bg-base-200 w-full mb-6">
                 <button
-                  className={`tab flex-1 ${
-                    receiveMode === "single" ? "tab-active" : ""
-                  }`}
+                  className={`tab flex-1 ${receiveMode === "single" ? "tab-active" : ""
+                    }`}
                   onClick={() => setReceiveMode("single")}
                 >
                   Single File
                 </button>
                 <button
-                  className={`tab flex-1 ${
-                    receiveMode === "group" ? "tab-active" : ""
-                  }`}
+                  className={`tab flex-1 ${receiveMode === "group" ? "tab-active" : ""
+                    }`}
                   onClick={() => setReceiveMode("group")}
                 >
                   Group Files
