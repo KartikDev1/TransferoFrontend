@@ -12,6 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^2.2.7",
     "@lottiefiles/dotlottie-react": "^0.14.4",
+    "@lottiefiles/react-lottie-player": "^3.6.0",
     "axios": "^1.11.0",
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.533.0",

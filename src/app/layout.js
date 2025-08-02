@@ -3,6 +3,7 @@ import "./globals.css";
 import { Manrope } from "next/font/google";
 import AppWrapper from "@/components/AppWrapper";
 import Footer from "@/components/Footer";
+import MaintenancePage from "./maintenance/page";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -54,6 +55,8 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const maintenanceMode = true; // 🔧 Toggle this to false to disable maintenance
+
   return (
     <html lang="en">
       <head>
@@ -61,10 +64,11 @@ export default function RootLayout({ children }) {
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body className={`${manrope.className} bg-[#f5f5fc] text-gray-800`}>
-        <AppWrapper>
-          {children}
-          <Footer />
-        </AppWrapper>
+        {maintenanceMode ? (
+          <MaintenancePage /> // 👈 Shows maintenance UI
+        ) : (
+          <>{children}</>
+        )}
       </body>
     </html>
   );
