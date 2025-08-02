@@ -245,7 +245,8 @@ export default function HeroSection() {
     setReceiveFileData(null);
 
     try {
-      const code = receiveCode.trim().toUpperCase(); // ✅ sanitize input
+      const code = receiveCode.trim().toUpperCase();
+
       const { blob, filename, contentType, originalFileName, size } =
         await downloadFile(code);
 
@@ -714,14 +715,13 @@ export default function HeroSection() {
                         onChange={(e) => {
                           const value = e.target.value
                             .toUpperCase()
-                            .replace(/[^A-Z0-9]/g, "");
+                            .replace(/[^A-Z0-9]/g, ""); // ✅ keeps only uppercase + digits
                           setReceiveCode(value);
                         }}
                         placeholder="e.g. T1F13G"
-                        autoCapitalize="characters"
-                        inputMode="text"
                         className="input input-bordered w-full text-lg font-mono tracking-widest focus:input-primary"
                       />
+
                       <AnimatePresence>
                         {receiveError && (
                           <motion.div

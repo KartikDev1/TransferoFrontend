@@ -48,10 +48,9 @@ export const sendFile = async (files) => {
 
 export const downloadFile = async (code) => {
   try {
+    code = code.trim().toUpperCase();
     // First fetch file metadata to get originalFileName
     const metadataResponse = await apiClient.get(`/download/${code}`);
-
-    console.log("Metadata response:", metadataResponse.data);
 
     const { originalFileName } = metadataResponse.data;
 
@@ -59,10 +58,6 @@ export const downloadFile = async (code) => {
     const fileResponse = await apiClient.get(`/download/${code}`, {
       responseType: "blob",
     });
-
-    // Debug logs
-    console.log("File response headers:", fileResponse.headers);
-    console.log("File response originalFileName:", originalFileName);
 
     // Verify we have valid blob data
     if (!(fileResponse.data instanceof Blob)) {
