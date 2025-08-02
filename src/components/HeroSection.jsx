@@ -245,8 +245,9 @@ export default function HeroSection() {
     setReceiveFileData(null);
 
     try {
+      const code = receiveCode.trim().toUpperCase(); // ✅ sanitize input
       const { blob, filename, contentType, originalFileName, size } =
-        await downloadFile(receiveCode);
+        await downloadFile(code);
 
       if (!blob || !(blob instanceof Blob)) {
         throw new Error("Invalid file data");
