@@ -55,7 +55,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const maintenanceMode = true; // 🔧 Toggle this to false to disable maintenance
+  const maintenanceMode = false; // 🔧 Toggle this to false to disable maintenance
 
   return (
     <html lang="en">
