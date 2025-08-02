@@ -639,7 +639,7 @@ export default function HeroSection() {
 
                     <p className="text-base-content/70 -mt-4">
                       {viewMode === "individual"
-                        ? "Scan QR codes or share the codes below."
+                        ? "Scan QR codes or share the codes ."
                         : "Share this group code to download all files together."}
                     </p>
 
