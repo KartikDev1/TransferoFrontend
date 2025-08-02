@@ -24,7 +24,7 @@ import QRCode from "react-qr-code";
 import { toast, Toaster } from "react-hot-toast";
 import Confetti from "react-confetti";
 
-import { sendFile, downloadFile,downloadGroup } from "../services/api";
+import { sendFile, downloadFile, downloadGroup } from "../services/api";
 
 const AnimatedLogo = () => {
   return (
@@ -219,36 +219,42 @@ export default function HeroSection() {
   };
 
   const handleGroupDownload = async () => {
-  setIsDownloadingGroup(true);
-  setGroupError("");
-  setReceiveFileData(null);
+    setIsDownloadingGroup(true);
+    setGroupError("");
+    setReceiveFileData(null);
 
-  try {
-    const code = groupCode.trim().toUpperCase();
-    await downloadGroup(code); // Let downloadGroup handle the download
-    
-    // For UI feedback if needed
-    setReceiveFileData({
-      name: `Transfero-${code}.zip`,
-      type: "application/zip",
-      url: "#" // Or you could create an object URL if needed
-    });
+    try {
+      const code = groupCode.trim().toUpperCase();
 
-    toast.success("Group files downloaded successfully!");
-  } catch (error) {
-    console.error("Error receiving group files:", error);
-    let errorMessage = "Download failed";
-    if (error.message.includes("Network Error")) {
-      errorMessage = "Network connection failed";
-    } else if (error.response?.status === 404) {
-      errorMessage = "Group not found";
+      // This will automatically trigger the download
+      await downloadGroup(code);
+
+      // For UI feedback
+      setReceiveFileData({
+        name: `Transfero-${code}.zip`,
+        type: "application/zip",
+        url: "#", // Not used since downloadGroup handles the download
+      });
+
+      toast.success("Group files downloaded successfully!");
+    } catch (error) {
+      console.error("Error receiving group files:", error);
+      let errorMessage = "Group download failed";
+
+      if (error.message.includes("Network Error")) {
+        errorMessage = "Network connection failed";
+      } else if (error.response?.status === 404) {
+        errorMessage = "Group not found - check the code";
+      } else if (error.response?.status === 410) {
+        errorMessage = "Group expired or was already downloaded";
+      }
+
+      setGroupError(errorMessage);
+      toast.error(errorMessage);
+    } finally {
+      setIsDownloadingGroup(false);
     }
-    setGroupError(errorMessage);
-    toast.error(errorMessage);
-  } finally {
-    setIsDownloadingGroup(false);
-  }
-};
+  };
 
   const handleSend = async () => {
     if (!selectedFiles.length) return;
@@ -286,47 +292,58 @@ export default function HeroSection() {
     try {
       const code = receiveCode.trim().toUpperCase();
 
-      const { blob, filename, contentType, originalFileName, size } =
+      // Call the single file download API
+      const { blob, filename, contentType, originalFileName } =
         await downloadFile(code);
 
-      if (!blob || !(blob instanceof Blob)) {
-        throw new Error("Invalid file data");
-      }
-
+      // Create download link
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = originalFileName;
+      a.download = originalFileName || filename;
       document.body.appendChild(a);
       a.click();
 
+      // Cleanup
       setTimeout(() => {
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
       }, 100);
 
+      // Update UI state
       setReceiveFileData({
-        name: originalFileName,
-        originalFileName,
+        name: originalFileName || filename,
         type: contentType,
-        size: size,
         url,
       });
 
       toast.success("File downloaded successfully!");
     } catch (error) {
       console.error("Error receiving file:", error);
-      let errorMessage = "Download failed";
+      let errorMessage = "File download failed";
+
       if (error.message.includes("Network Error")) {
         errorMessage = "Network connection failed";
       } else if (error.response?.status === 404) {
-        errorMessage = "File not found";
+        errorMessage = "File not found - check the code";
+      } else if (error.response?.status === 410) {
+        errorMessage = "File expired or was already downloaded";
       }
+
       setReceiveError(errorMessage);
       toast.error(errorMessage);
     } finally {
       setIsFetching(false);
     }
+  };
+
+  const handleModeSwitch = (newMode) => {
+    setReceiveMode(newMode);
+    setReceiveCode("");
+    setGroupCode("");
+    setReceiveError("");
+    setGroupError("");
+    setReceiveFileData(null);
   };
 
   const resetSendModal = () => {
@@ -502,10 +519,11 @@ export default function HeroSection() {
                     </h2>
 
                     <div
-                      className={`relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300 ${isDragging
-                        ? "border-primary bg-primary/10 scale-105"
-                        : "border-base-300 hover:border-primary"
-                        }`}
+                      className={`relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300 ${
+                        isDragging
+                          ? "border-primary bg-primary/10 scale-105"
+                          : "border-base-300 hover:border-primary"
+                      }`}
                       onClick={() =>
                         !isUploading && fileInputRef.current.click()
                       }
@@ -519,8 +537,9 @@ export default function HeroSection() {
                         transition={{ type: "spring" }}
                       >
                         <Upload
-                          className={`w-10 h-10 mx-auto mb-3 transition-colors ${isDragging ? "text-primary" : "text-gray-400"
-                            }`}
+                          className={`w-10 h-10 mx-auto mb-3 transition-colors ${
+                            isDragging ? "text-primary" : "text-gray-400"
+                          }`}
                         />
                       </motion.div>
                       <p className="font-semibold text-base-content">
@@ -577,7 +596,8 @@ export default function HeroSection() {
                       {isUploading ? (
                         <Loader2 className="w-5 h-5 animate-spin" />
                       ) : (
-                        `Send ${selectedFiles.length || ""} File${selectedFiles.length !== 1 ? "s" : ""
+                        `Send ${selectedFiles.length || ""} File${
+                          selectedFiles.length !== 1 ? "s" : ""
                         }`
                       )}
                     </button>
@@ -600,15 +620,17 @@ export default function HeroSection() {
                     {downloadData.length > 1 && (
                       <div className="tabs tabs-boxed bg-base-200 w-full">
                         <button
-                          className={`tab flex-1 ${viewMode === "individual" ? "tab-active" : ""
-                            }`}
+                          className={`tab flex-1 ${
+                            viewMode === "individual" ? "tab-active" : ""
+                          }`}
                           onClick={() => setViewMode("individual")}
                         >
                           <File className="w-4 h-4 mr-2" /> Individual Files
                         </button>
                         <button
-                          className={`tab flex-1 ${viewMode === "group" ? "tab-active" : ""
-                            }`}
+                          className={`tab flex-1 ${
+                            viewMode === "group" ? "tab-active" : ""
+                          }`}
                           onClick={() => setViewMode("group")}
                         >
                           <Folder className="w-4 h-4 mr-2" /> Group View
@@ -652,9 +674,7 @@ export default function HeroSection() {
                                 />
                               </div>
                             ) : (
-                              <p className="text-warning">
-                                QR not available
-                              </p>
+                              <p className="text-warning">QR not available</p>
                             )}
 
                             {downloadData[currentQrIndex].shortCode && (
@@ -686,11 +706,11 @@ export default function HeroSection() {
                               File Group ({downloadData.length} files)
                             </h3>
 
-                            {downloadData.groupQrCodeBase64 ? (
+                            {downloadData[0]?.groupQrCodeBase64 ? (
                               <div className="p-2 bg-white rounded-lg inline-block">
                                 <img
-                                  src={downloadData.groupQrCodeBase64}
-                                  alt={`Group QR Code ${downloadData.groupCode}`}
+                                  src={downloadData[0].groupQrCodeBase64}
+                                  alt={`Group QR Code ${downloadData[0].groupCode}`}
                                   className="w-40 h-40"
                                 />
                               </div>
@@ -699,11 +719,16 @@ export default function HeroSection() {
                                 Group QR code not available
                               </p>
                             )}
+
                             {downloadData[0]?.groupCode && (
                               <div className="bg-blue-100 text-blue-800 font-mono font-semibold text-lg p-3 rounded-lg flex items-center justify-between max-w-md mx-auto mt-4 shadow">
-                                <span className="tracking-wider">{downloadData[0].groupCode}</span>
+                                <span className="tracking-wider">
+                                  {downloadData[0].groupCode}
+                                </span>
                                 <button
-                                  onClick={() => handleCopyCode(downloadData[0].groupCode)}
+                                  onClick={() =>
+                                    handleCopyCode(downloadData[0].groupCode)
+                                  }
                                   className="btn btn-ghost btn-sm btn-circle tooltip tooltip-left"
                                   data-tip="Copy group code"
                                 >
@@ -711,7 +736,6 @@ export default function HeroSection() {
                                 </button>
                               </div>
                             )}
-
 
                             <div className="text-sm text-base-content/70 mt-2">
                               <FileArchive className="w-4 h-4 inline-block mr-1" />
@@ -740,10 +764,11 @@ export default function HeroSection() {
                               <button
                                 key={index}
                                 onClick={() => setCurrentQrIndex(index)}
-                                className={`w-2 h-2 rounded-full ${index === currentQrIndex
-                                  ? "bg-primary"
-                                  : "bg-base-300"
-                                  }`}
+                                className={`w-2 h-2 rounded-full ${
+                                  index === currentQrIndex
+                                    ? "bg-primary"
+                                    : "bg-base-300"
+                                }`}
                               />
                             ))}
                           </div>
@@ -810,19 +835,27 @@ export default function HeroSection() {
                 Receive Files
               </h2>
 
-              <div className="tabs tabs-boxed bg-base-200 w-full mb-6">
+              <div className="flex bg-base-200 p-1 rounded-xl mb-6">
                 <button
-                  className={`tab flex-1 ${receiveMode === "single" ? "tab-active" : ""
-                    }`}
-                  onClick={() => setReceiveMode("single")}
+                  className={`flex-1 py-3 rounded-lg flex items-center justify-center transition-all ${
+                    receiveMode === "single"
+                      ? "bg-primary text-white shadow-sm"
+                      : "text-base-content/80 hover:bg-base-300/50"
+                  }`}
+                  onClick={() => handleModeSwitch("single")}
                 >
+                  <File className="w-4 h-4 mr-2" />
                   Single File
                 </button>
                 <button
-                  className={`tab flex-1 ${receiveMode === "group" ? "tab-active" : ""
-                    }`}
-                  onClick={() => setReceiveMode("group")}
+                  className={`flex-1 py-3 rounded-lg flex items-center justify-center transition-all ${
+                    receiveMode === "group"
+                      ? "bg-primary text-white shadow-sm"
+                      : "text-base-content/80 hover:bg-base-300/50"
+                  }`}
+                  onClick={() => handleModeSwitch("group")}
                 >
+                  <Folder className="w-4 h-4 mr-2" />
                   Group Files
                 </button>
               </div>
@@ -834,81 +867,55 @@ export default function HeroSection() {
                     exit={{ opacity: 0, y: -20 }}
                     className="space-y-6"
                   >
-                    {receiveMode === "single" ? (
-                      <div>
-                        <label className="label">
-                          <span className="label-text">
-                            Enter the file code
-                          </span>
-                        </label>
-                        <input
-                          type="text"
-                          value={receiveCode}
-                          onChange={(e) => {
-                            const value = e.target.value
-                              .toUpperCase()
-                              .replace(/[^A-Z0-9]/g, "");
-                            setReceiveCode(value);
-                          }}
-                          placeholder="e.g. T1F13G"
-                          className="input input-bordered w-full text-lg font-mono tracking-widest focus:input-primary"
-                        />
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={receiveMode}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <div className="space-y-2">
+                          <label className="block text-sm font-medium text-base-content/80">
+                            Enter the{" "}
+                            {receiveMode === "single" ? "file" : "group"} code
+                          </label>
+                          <input
+                            type="text"
+                            value={
+                              receiveMode === "single" ? receiveCode : groupCode
+                            }
+                            onChange={(e) => {
+                              const value = e.target.value
+                                .toUpperCase()
+                                .replace(/[^A-Z0-9]/g, "");
+                              receiveMode === "single"
+                                ? setReceiveCode(value)
+                                : setGroupCode(value);
+                            }}
+                            placeholder={`e.g. ${
+                              receiveMode === "single" ? "7S3W3C" : "GRP123"
+                            }`}
+                            className="input input-bordered w-full text-lg font-mono tracking-widest focus:input-primary focus:ring-2 focus:ring-primary/50"
+                          />
 
-                        <AnimatePresence>
-                          {receiveError && (
+                          {/* Improved error message */}
+                          {(receiveError || groupError) && (
                             <motion.div
-                              initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                              animate={{
-                                opacity: 1,
-                                height: "auto",
-                                marginTop: "8px",
-                              }}
-                              exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                              className="alert alert-error text-sm py-2"
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              className="flex items-center gap-2 p-3 text-sm text-error"
                             >
-                              <span>{receiveError}</span>
+                              <X className="w-4 h-4 flex-shrink-0" />
+                              <span>
+                                {receiveError || groupError} - Please verify the
+                                code
+                              </span>
                             </motion.div>
                           )}
-                        </AnimatePresence>
-                      </div>
-                    ) : (
-                      <div>
-                        <label className="label">
-                          <span className="label-text">
-                            Enter the group code
-                          </span>
-                        </label>
-                        <input
-                          type="text"
-                          value={groupCode}
-                          onChange={(e) => {
-                            const value = e.target.value
-                              .toUpperCase()
-                              .replace(/[^A-Z0-9]/g, "");
-                            setGroupCode(value);
-                          }}
-                          placeholder="e.g. GRP123"
-                          className="input input-bordered w-full text-lg font-mono tracking-widest focus:input-primary"
-                        />
-
-                        <AnimatePresence>
-                          {groupError && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                              animate={{
-                                opacity: 1,
-                                height: "auto",
-                                marginTop: "8px",
-                              }}
-                              exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                              className="alert alert-error text-sm py-2"
-                            >
-                              <span>{groupError}</span>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    )}
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
 
                     <button
                       onClick={
@@ -922,7 +929,7 @@ export default function HeroSection() {
                         isFetching ||
                         isDownloadingGroup
                       }
-                      className="w-full btn btn-primary btn-lg"
+                      className="w-full btn btn-primary btn-lg shadow-md hover:shadow-lg transition-all"
                     >
                       {isFetching || isDownloadingGroup ? (
                         <Loader2 className="w-5 h-5 animate-spin" />
@@ -931,7 +938,7 @@ export default function HeroSection() {
                       ) : (
                         <span className="flex items-center gap-2">
                           <FileArchive className="w-5 h-5" />
-                          Download Group as ZIP
+                          Download Group
                         </span>
                       )}
                     </button>
