@@ -710,8 +710,12 @@ export default function HeroSection() {
                       <input
                         type="text"
                         value={receiveCode}
-                        onChange={(e) => setReceiveCode(e.target.value)}
+                        onChange={(e) =>
+                          setReceiveCode(e.target.value.toUpperCase())
+                        }
                         placeholder="e.g. T1F13G"
+                        autoCapitalize="characters"
+                        inputMode="text"
                         className="input input-bordered w-full text-lg font-mono uppercase tracking-widest focus:input-primary"
                       />
                       <AnimatePresence>
