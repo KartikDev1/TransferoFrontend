@@ -674,7 +674,7 @@ export default function HeroSection() {
                               </div>
                             ) : (
                               <p className="text-warning">
-                                QR code not available
+                                QR not available
                               </p>
                             )}
 
