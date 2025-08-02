@@ -721,7 +721,6 @@ export default function HeroSection() {
                         inputMode="text"
                         className="input input-bordered w-full text-lg font-mono tracking-widest focus:input-primary"
                       />
-
                       <AnimatePresence>
                         {receiveError && (
                           <motion.div
