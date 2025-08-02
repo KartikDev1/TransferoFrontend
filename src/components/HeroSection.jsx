@@ -492,34 +492,34 @@ export default function HeroSection() {
               exit={{ scale: 0.9, y: 30, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-base-100 p-6 rounded-2xl shadow-2xl w-full max-w-md relative"
+              className="bg-base-100 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-md mx-2 relative"
             >
               <button
                 onClick={resetSendModal}
-                className="absolute top-4 right-4 btn btn-ghost btn-circle btn-sm"
+                className="absolute top-2 right-2 sm:top-4 sm:right-4 btn btn-ghost btn-circle btn-sm"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
 
               <AnimatePresence mode="wait">
                 {!downloadData ? (
                   <motion.div key="upload-view" exit={{ opacity: 0, y: -20 }}>
-                    <h2 className="text-2xl font-bold mb-4 flex items-center gap-3">
+                    <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 flex items-center gap-2 sm:gap-3">
                       {isUploading ? (
                         <>
-                          <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                          <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin text-primary" />
                           <span>Sending Files...</span>
                         </>
                       ) : (
                         <>
-                          <Upload className="w-6 h-6 text-primary" />
+                          <Upload className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                           <span>Send Your Files</span>
                         </>
                       )}
                     </h2>
 
                     <div
-                      className={`relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300 ${
+                      className={`relative border-2 border-dashed rounded-lg sm:rounded-xl p-4 sm:p-8 text-center cursor-pointer transition-all duration-300 ${
                         isDragging
                           ? "border-primary bg-primary/10 scale-105"
                           : "border-base-300 hover:border-primary"
@@ -537,17 +537,17 @@ export default function HeroSection() {
                         transition={{ type: "spring" }}
                       >
                         <Upload
-                          className={`w-10 h-10 mx-auto mb-3 transition-colors ${
+                          className={`w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 sm:mb-3 transition-colors ${
                             isDragging ? "text-primary" : "text-gray-400"
                           }`}
                         />
                       </motion.div>
-                      <p className="font-semibold text-base-content">
+                      <p className="font-semibold text-base-content text-sm sm:text-base">
                         {isDragging
                           ? "Drop them here!"
                           : "Drag & drop files or click to browse"}
                       </p>
-                      <p className="text-sm text-base-content/60 mt-1">
+                      <p className="text-xs sm:text-sm text-base-content/60 mt-1">
                         Max file size: 50MB
                       </p>
                       <input
@@ -567,15 +567,15 @@ export default function HeroSection() {
                           animate={{
                             height: "auto",
                             opacity: 1,
-                            marginTop: "16px",
+                            marginTop: "12px",
                           }}
                           exit={{ height: 0, opacity: 0, marginTop: 0 }}
                           className="overflow-hidden"
                         >
-                          <h3 className="font-medium text-sm mb-2">
+                          <h3 className="font-medium text-xs sm:text-sm mb-1 sm:mb-2">
                             Selected Files ({selectedFiles.length})
                           </h3>
-                          <div className="max-h-40 overflow-y-auto space-y-2 pr-2 custom-scrollbar">
+                          <div className="max-h-32 sm:max-h-40 overflow-y-auto space-y-1 sm:space-y-2 pr-1 sm:pr-2 custom-scrollbar">
                             {selectedFiles.map((file, index) => (
                               <FilePreviewItem
                                 key={file.name + index}
@@ -591,10 +591,10 @@ export default function HeroSection() {
                     <button
                       onClick={handleSend}
                       disabled={!selectedFiles.length || isUploading}
-                      className="mt-6 w-full btn btn-primary btn-lg"
+                      className="mt-4 sm:mt-6 w-full btn btn-primary btn-md sm:btn-lg"
                     >
                       {isUploading ? (
-                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                       ) : (
                         `Send ${selectedFiles.length || ""} File${
                           selectedFiles.length !== 1 ? "s" : ""
@@ -607,25 +607,26 @@ export default function HeroSection() {
                     key="success-view"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-center space-y-6"
+                    className="text-center space-y-4 sm:space-y-6"
                   >
-                    <div className="inline-flex items-center justify-center w-20 h-20 bg-success/10 rounded-full">
-                      <CheckCircle2 className="w-10 h-10 text-success" />
+                    <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-success/10 rounded-full">
+                      <CheckCircle2 className="w-8 h-8 sm:w-10 sm:h-10 text-success" />
                     </div>
-                    <h2 className="text-2xl font-bold">
+                    <h2 className="text-xl sm:text-2xl font-bold">
                       Files Sent Successfully!
                     </h2>
 
-                    {/* Add toggle for view mode */}
+                    {/* Responsive toggle for view mode */}
                     {downloadData.length > 1 && (
-                      <div className="tabs tabs-boxed bg-base-200 w-full">
+                      <div className="tabs tabs-boxed bg-base-200 w-full text-xs sm:text-sm">
                         <button
                           className={`tab flex-1 ${
                             viewMode === "individual" ? "tab-active" : ""
                           }`}
                           onClick={() => setViewMode("individual")}
                         >
-                          <File className="w-4 h-4 mr-2" /> Individual Files
+                          <File className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                          Individual
                         </button>
                         <button
                           className={`tab flex-1 ${
@@ -633,14 +634,15 @@ export default function HeroSection() {
                           }`}
                           onClick={() => setViewMode("group")}
                         >
-                          <Folder className="w-4 h-4 mr-2" /> Group View
+                          <Folder className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                          Group
                         </button>
                       </div>
                     )}
 
-                    <p className="text-base-content/70 -mt-4">
+                    <p className="text-base-content/70 text-sm sm:text-base -mt-2 sm:-mt-4">
                       {viewMode === "individual"
-                        ? "Scan QR codes or share the codes ."
+                        ? "Scan QR codes or share the codes."
                         : "Share this group code to download all files together."}
                     </p>
 
@@ -656,29 +658,31 @@ export default function HeroSection() {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -20 }}
                             transition={{ duration: 0.3 }}
-                            className="flex flex-col items-center gap-4"
+                            className="flex flex-col items-center gap-2 sm:gap-4"
                           >
-                            <h3 className="text-lg font-medium">
+                            <h3 className="text-base sm:text-lg font-medium">
                               {downloadData[currentQrIndex].originalFileName ||
                                 `File ${currentQrIndex + 1}`}
                             </h3>
 
                             {downloadData[currentQrIndex].qrCodeBase64 ? (
-                              <div className="p-2 bg-white rounded-lg inline-block">
+                              <div className="p-1 sm:p-2 bg-white rounded-lg inline-block">
                                 <img
                                   src={
                                     downloadData[currentQrIndex].qrCodeBase64
                                   }
                                   alt={`QR Code ${downloadData[currentQrIndex].shortCode}`}
-                                  className="w-40 h-40"
+                                  className="w-32 h-32 sm:w-40 sm:h-40"
                                 />
                               </div>
                             ) : (
-                              <p className="text-warning">QR not available</p>
+                              <p className="text-warning text-sm">
+                                QR not available
+                              </p>
                             )}
 
                             {downloadData[currentQrIndex].shortCode && (
-                              <div className="bg-primary/10 text-primary font-mono font-bold text-3xl p-4 rounded-lg tracking-widest flex items-center justify-center gap-4">
+                              <div className="bg-primary/10 text-primary font-mono font-bold text-xl sm:text-3xl p-2 sm:p-4 rounded-lg tracking-widest flex items-center justify-center gap-2 sm:gap-4">
                                 <span>
                                   {downloadData[currentQrIndex].shortCode}
                                 </span>
@@ -688,9 +692,9 @@ export default function HeroSection() {
                                       downloadData[currentQrIndex].shortCode
                                     )
                                   }
-                                  className="btn btn-ghost btn-sm btn-circle"
+                                  className="btn btn-ghost btn-xs sm:btn-sm btn-circle"
                                 >
-                                  <Copy className="w-5 h-5" />
+                                  <Copy className="w-4 h-4 sm:w-5 sm:h-5" />
                                 </button>
                               </div>
                             )}
@@ -700,45 +704,44 @@ export default function HeroSection() {
                             key="group-view"
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="flex flex-col items-center gap-4"
+                            className="flex flex-col items-center gap-2 sm:gap-4"
                           >
-                            <h3 className="text-lg font-medium">
+                            <h3 className="text-base sm:text-lg font-medium">
                               File Group ({downloadData.length} files)
                             </h3>
 
                             {downloadData[0]?.groupQrCodeBase64 ? (
-                              <div className="p-2 bg-white rounded-lg inline-block">
+                              <div className="p-1 sm:p-2 bg-white rounded-lg inline-block">
                                 <img
                                   src={downloadData[0].groupQrCodeBase64}
                                   alt={`Group QR Code ${downloadData[0].groupCode}`}
-                                  className="w-40 h-40"
+                                  className="w-32 h-32 sm:w-40 sm:h-40"
                                 />
                               </div>
                             ) : (
-                              <p className="text-warning">
+                              <p className="text-warning text-sm">
                                 Group QR code not available
                               </p>
                             )}
 
                             {downloadData[0]?.groupCode && (
-                              <div className="bg-blue-100 text-blue-800 font-mono font-semibold text-lg p-3 rounded-lg flex items-center justify-between max-w-md mx-auto mt-4 shadow">
-                                <span className="tracking-wider">
+                              <div className="bg-blue-100 text-blue-800 font-mono font-semibold text-base sm:text-lg p-2 sm:p-3 rounded-lg flex items-center justify-between w-full max-w-xs mx-auto mt-2 sm:mt-4 shadow">
+                                <span className="tracking-wider truncate max-w-[180px] sm:max-w-none">
                                   {downloadData[0].groupCode}
                                 </span>
                                 <button
                                   onClick={() =>
                                     handleCopyCode(downloadData[0].groupCode)
                                   }
-                                  className="btn btn-ghost btn-sm btn-circle tooltip tooltip-left"
-                                  data-tip="Copy group code"
+                                  className="btn btn-ghost btn-xs sm:btn-sm btn-circle"
                                 >
-                                  <Copy className="w-5 h-5" />
+                                  <Copy className="w-4 h-4 sm:w-5 sm:h-5" />
                                 </button>
                               </div>
                             )}
 
-                            <div className="text-sm text-base-content/70 mt-2">
-                              <FileArchive className="w-4 h-4 inline-block mr-1" />
+                            <div className="text-xs sm:text-sm text-base-content/70 mt-1 sm:mt-2">
+                              <FileArchive className="w-3 h-3 sm:w-4 sm:h-4 inline-block mr-1" />
                               Files will be downloaded as a ZIP archive
                             </div>
                           </motion.div>
@@ -749,17 +752,17 @@ export default function HeroSection() {
                         <>
                           <button
                             onClick={handlePrevQr}
-                            className="absolute left-0 top-1/2 -translate-y-1/2 btn btn-ghost btn-circle"
+                            className="absolute left-0 top-1/2 -translate-y-1/2 btn btn-ghost btn-circle btn-sm"
                           >
-                            <ChevronLeft className="w-6 h-6" />
+                            <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6" />
                           </button>
                           <button
                             onClick={handleNextQr}
-                            className="absolute right-0 top-1/2 -translate-y-1/2 btn btn-ghost btn-circle"
+                            className="absolute right-0 top-1/2 -translate-y-1/2 btn btn-ghost btn-circle btn-sm"
                           >
-                            <ChevronRight className="w-6 h-6" />
+                            <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6" />
                           </button>
-                          <div className="flex justify-center gap-2 mt-4">
+                          <div className="flex justify-center gap-1 sm:gap-2 mt-2 sm:mt-4">
                             {downloadData.map((_, index) => (
                               <button
                                 key={index}
@@ -776,7 +779,7 @@ export default function HeroSection() {
                       )}
                     </div>
 
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-2 sm:gap-3">
                       <button
                         onClick={() =>
                           handleCopyCode(
@@ -785,14 +788,14 @@ export default function HeroSection() {
                               : downloadData.groupCode
                           )
                         }
-                        className="btn btn-outline w-full"
+                        className="btn btn-outline w-full btn-sm sm:btn-md"
                       >
-                        <Copy className="w-5 h-5" />
+                        <Copy className="w-4 h-4 sm:w-5 sm:h-5" />
                         Copy {viewMode === "individual" ? "Code" : "Group Code"}
                       </button>
                       <button
                         onClick={resetSendModal}
-                        className="w-full btn btn-primary"
+                        className="w-full btn btn-primary btn-sm sm:btn-md"
                       >
                         Send More Files
                       </button>
