@@ -710,14 +710,18 @@ export default function HeroSection() {
                       <input
                         type="text"
                         value={receiveCode}
-                        onChange={(e) =>
-                          setReceiveCode(e.target.value.toUpperCase())
-                        }
+                        onChange={(e) => {
+                          const value = e.target.value
+                            .toUpperCase()
+                            .replace(/[^A-Z0-9]/g, "");
+                          setReceiveCode(value);
+                        }}
                         placeholder="e.g. T1F13G"
                         autoCapitalize="characters"
                         inputMode="text"
-                        className="input input-bordered w-full text-lg font-mono uppercase tracking-widest focus:input-primary"
+                        className="input input-bordered w-full text-lg font-mono tracking-widest focus:input-primary"
                       />
+
                       <AnimatePresence>
                         {receiveError && (
                           <motion.div
