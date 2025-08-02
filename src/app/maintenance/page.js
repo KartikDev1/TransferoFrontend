@@ -56,8 +56,8 @@ export default function MaintenancePage() {
               transition={{ delay: 0.6 }}
               className="text-xl text-gray-600 max-w-2xl mx-auto"
             >
-              We're upgrading our systems to serve you better. Thank you for
-              your patience!
+              We&rsquo;re upgrading our systems to serve you better. Thank you
+              for your patience!
             </motion.p>
           </div>
 
