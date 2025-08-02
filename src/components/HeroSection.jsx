@@ -15,6 +15,8 @@ import {
   Share2,
   ChevronLeft,
   ChevronRight,
+  FileArchive, // Add this import
+  Folder,
 } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
@@ -115,6 +117,11 @@ export default function HeroSection() {
   const [currentQrIndex, setCurrentQrIndex] = useState(0);
   const fileInputRef = useRef(null);
   const qrContainerRef = useRef(null);
+  const [receiveMode, setReceiveMode] = useState("single"); // 'single' or 'group'
+  const [groupCode, setGroupCode] = useState("");
+  const [groupError, setGroupError] = useState("");
+  const [isDownloadingGroup, setIsDownloadingGroup] = useState(false);
+  const [viewMode, setViewMode] = useState("individual"); // 'individual' or 'group'
 
   useEffect(() => {
     const handleResize = () => {
@@ -211,6 +218,54 @@ export default function HeroSection() {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleGroupDownload = async () => {
+    setIsDownloadingGroup(true);
+    setGroupError("");
+    setReceiveFileData(null);
+
+    try {
+      const code = groupCode.trim().toUpperCase();
+
+      const { blob, filename } = await downloadGroup(code);
+
+      if (!blob || !(blob instanceof Blob)) {
+        throw new Error("Invalid group data");
+      }
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename || `file-share-group-${code}.zip`;
+      document.body.appendChild(a);
+      a.click();
+
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      }, 100);
+
+      setReceiveFileData({
+        name: filename || `file-share-group-${code}.zip`,
+        type: "application/zip",
+        url,
+      });
+
+      toast.success("Group files downloaded successfully!");
+    } catch (error) {
+      console.error("Error receiving group files:", error);
+      let errorMessage = "Download failed";
+      if (error.message.includes("Network Error")) {
+        errorMessage = "Network connection failed";
+      } else if (error.response?.status === 404) {
+        errorMessage = "Group not found";
+      }
+      setGroupError(errorMessage);
+      toast.error(errorMessage);
+    } finally {
+      setIsDownloadingGroup(false);
+    }
+  };
+
   const handleSend = async () => {
     if (!selectedFiles.length) return;
 
@@ -304,6 +359,9 @@ export default function HeroSection() {
       setReceiveCode("");
       setReceiveError("");
       setReceiveFileData(null);
+      setGroupCode("");
+      setGroupError("");
+      setReceiveMode("single");
     }, 300);
   };
 
@@ -556,8 +614,33 @@ export default function HeroSection() {
                     <h2 className="text-2xl font-bold">
                       Files Sent Successfully!
                     </h2>
+
+                    {/* Add toggle for view mode */}
+                    {downloadData.length > 1 && (
+                      <div className="tabs tabs-boxed bg-base-200 w-full">
+                        <button
+                          className={`tab flex-1 ${
+                            viewMode === "individual" ? "tab-active" : ""
+                          }`}
+                          onClick={() => setViewMode("individual")}
+                        >
+                          <File className="w-4 h-4 mr-2" /> Individual Files
+                        </button>
+                        <button
+                          className={`tab flex-1 ${
+                            viewMode === "group" ? "tab-active" : ""
+                          }`}
+                          onClick={() => setViewMode("group")}
+                        >
+                          <Folder className="w-4 h-4 mr-2" /> Group View
+                        </button>
+                      </div>
+                    )}
+
                     <p className="text-base-content/70 -mt-4">
-                      Scan the QR code or share the code below.
+                      {viewMode === "individual"
+                        ? "Scan QR codes or share the codes below."
+                        : "Share this group code to download all files together."}
                     </p>
 
                     <div className="relative">
@@ -565,54 +648,102 @@ export default function HeroSection() {
                         ref={qrContainerRef}
                         className="overflow-hidden relative"
                       >
-                        <motion.div
-                          key={currentQrIndex}
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: -20 }}
-                          transition={{ duration: 0.3 }}
-                          className="flex flex-col items-center gap-4"
-                        >
-                          <h3 className="text-lg font-medium">
-                            {downloadData[currentQrIndex].originalFileName ||
-                              `File ${currentQrIndex + 1}`}
-                          </h3>
+                        {viewMode === "individual" ? (
+                          <motion.div
+                            key={currentQrIndex}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -20 }}
+                            transition={{ duration: 0.3 }}
+                            className="flex flex-col items-center gap-4"
+                          >
+                            <h3 className="text-lg font-medium">
+                              {downloadData[currentQrIndex].originalFileName ||
+                                `File ${currentQrIndex + 1}`}
+                            </h3>
 
-                          {downloadData[currentQrIndex].qrCodeBase64 ? (
-                            <div className="p-2 bg-white rounded-lg inline-block">
-                              <img
-                                src={downloadData[currentQrIndex].qrCodeBase64}
-                                alt={`QR Code ${downloadData[currentQrIndex].shortCode}`}
-                                className="w-40 h-40"
-                              />
-                            </div>
-                          ) : (
-                            <p className="text-warning">
-                              QR code not available
-                            </p>
-                          )}
+                            {downloadData[currentQrIndex].qrCodeBase64 ? (
+                              <div className="p-2 bg-white rounded-lg inline-block">
+                                <img
+                                  src={
+                                    downloadData[currentQrIndex].qrCodeBase64
+                                  }
+                                  alt={`QR Code ${downloadData[currentQrIndex].shortCode}`}
+                                  className="w-40 h-40"
+                                />
+                              </div>
+                            ) : (
+                              <p className="text-warning">
+                                QR code not available
+                              </p>
+                            )}
 
-                          {downloadData[currentQrIndex].shortCode && (
-                            <div className="bg-primary/10 text-primary font-mono font-bold text-3xl p-4 rounded-lg tracking-widest flex items-center justify-center gap-4">
-                              <span>
-                                {downloadData[currentQrIndex].shortCode}
-                              </span>
-                              <button
-                                onClick={() =>
-                                  handleCopyCode(
-                                    downloadData[currentQrIndex].shortCode
-                                  )
-                                }
-                                className="btn btn-ghost btn-sm btn-circle"
-                              >
-                                <Copy className="w-5 h-5" />
-                              </button>
+                            {downloadData[currentQrIndex].shortCode && (
+                              <div className="bg-primary/10 text-primary font-mono font-bold text-3xl p-4 rounded-lg tracking-widest flex items-center justify-center gap-4">
+                                <span>
+                                  {downloadData[currentQrIndex].shortCode}
+                                </span>
+                                <button
+                                  onClick={() =>
+                                    handleCopyCode(
+                                      downloadData[currentQrIndex].shortCode
+                                    )
+                                  }
+                                  className="btn btn-ghost btn-sm btn-circle"
+                                >
+                                  <Copy className="w-5 h-5" />
+                                </button>
+                              </div>
+                            )}
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            key="group-view"
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="flex flex-col items-center gap-4"
+                          >
+                            <h3 className="text-lg font-medium">
+                              File Group ({downloadData.length} files)
+                            </h3>
+
+                            {downloadData.groupQrCodeBase64 ? (
+                              <div className="p-2 bg-white rounded-lg inline-block">
+                                <img
+                                  src={downloadData.groupQrCodeBase64}
+                                  alt={`Group QR Code ${downloadData.groupCode}`}
+                                  className="w-40 h-40"
+                                />
+                              </div>
+                            ) : (
+                              <p className="text-warning">
+                                Group QR code not available
+                              </p>
+                            )}
+
+                            {downloadData.groupCode && (
+                              <div className="bg-primary/10 text-primary font-mono font-bold text-3xl p-4 rounded-lg tracking-widest flex items-center justify-center gap-4">
+                                <span>{downloadData.groupCode}</span>
+                                <button
+                                  onClick={() =>
+                                    handleCopyCode(downloadData.groupCode)
+                                  }
+                                  className="btn btn-ghost btn-sm btn-circle"
+                                >
+                                  <Copy className="w-5 h-5" />
+                                </button>
+                              </div>
+                            )}
+
+                            <div className="text-sm text-base-content/70 mt-2">
+                              <FileArchive className="w-4 h-4 inline-block mr-1" />
+                              Files will be downloaded as a ZIP archive
                             </div>
-                          )}
-                        </motion.div>
+                          </motion.div>
+                        )}
                       </div>
 
-                      {downloadData.length > 1 && (
+                      {viewMode === "individual" && downloadData.length > 1 && (
                         <>
                           <button
                             onClick={handlePrevQr}
@@ -646,12 +777,16 @@ export default function HeroSection() {
                     <div className="flex flex-col gap-3">
                       <button
                         onClick={() =>
-                          handleCopyCode(downloadData[currentQrIndex].shortCode)
+                          handleCopyCode(
+                            viewMode === "individual"
+                              ? downloadData[currentQrIndex].shortCode
+                              : downloadData.groupCode
+                          )
                         }
                         className="btn btn-outline w-full"
                       >
                         <Copy className="w-5 h-5" />
-                        Copy Code
+                        Copy {viewMode === "individual" ? "Code" : "Group Code"}
                       </button>
                       <button
                         onClick={resetSendModal}
@@ -698,6 +833,25 @@ export default function HeroSection() {
                 Receive Files
               </h2>
 
+              <div className="tabs tabs-boxed bg-base-200 w-full mb-6">
+                <button
+                  className={`tab flex-1 ${
+                    receiveMode === "single" ? "tab-active" : ""
+                  }`}
+                  onClick={() => setReceiveMode("single")}
+                >
+                  Single File
+                </button>
+                <button
+                  className={`tab flex-1 ${
+                    receiveMode === "group" ? "tab-active" : ""
+                  }`}
+                  onClick={() => setReceiveMode("group")}
+                >
+                  Group Files
+                </button>
+              </div>
+
               <AnimatePresence mode="wait">
                 {!receiveFileData ? (
                   <motion.div
@@ -705,49 +859,105 @@ export default function HeroSection() {
                     exit={{ opacity: 0, y: -20 }}
                     className="space-y-6"
                   >
-                    <div>
-                      <label className="label">
-                        <span className="label-text">Enter the file code</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={receiveCode}
-                        onChange={(e) => {
-                          const value = e.target.value
-                            .toUpperCase()
-                            .replace(/[^A-Z0-9]/g, ""); // ✅ keeps only uppercase + digits
-                          setReceiveCode(value);
-                        }}
-                        placeholder="e.g. T1F13G"
-                        className="input input-bordered w-full text-lg font-mono tracking-widest focus:input-primary"
-                      />
+                    {receiveMode === "single" ? (
+                      <div>
+                        <label className="label">
+                          <span className="label-text">
+                            Enter the file code
+                          </span>
+                        </label>
+                        <input
+                          type="text"
+                          value={receiveCode}
+                          onChange={(e) => {
+                            const value = e.target.value
+                              .toUpperCase()
+                              .replace(/[^A-Z0-9]/g, "");
+                            setReceiveCode(value);
+                          }}
+                          placeholder="e.g. T1F13G"
+                          className="input input-bordered w-full text-lg font-mono tracking-widest focus:input-primary"
+                        />
 
-                      <AnimatePresence>
-                        {receiveError && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                            animate={{
-                              opacity: 1,
-                              height: "auto",
-                              marginTop: "8px",
-                            }}
-                            exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                            className="alert alert-error text-sm py-2"
-                          >
-                            <span>{receiveError}</span>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
+                        <AnimatePresence>
+                          {receiveError && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                              animate={{
+                                opacity: 1,
+                                height: "auto",
+                                marginTop: "8px",
+                              }}
+                              exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                              className="alert alert-error text-sm py-2"
+                            >
+                              <span>{receiveError}</span>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    ) : (
+                      <div>
+                        <label className="label">
+                          <span className="label-text">
+                            Enter the group code
+                          </span>
+                        </label>
+                        <input
+                          type="text"
+                          value={groupCode}
+                          onChange={(e) => {
+                            const value = e.target.value
+                              .toUpperCase()
+                              .replace(/[^A-Z0-9]/g, "");
+                            setGroupCode(value);
+                          }}
+                          placeholder="e.g. GRP123"
+                          className="input input-bordered w-full text-lg font-mono tracking-widest focus:input-primary"
+                        />
+
+                        <AnimatePresence>
+                          {groupError && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                              animate={{
+                                opacity: 1,
+                                height: "auto",
+                                marginTop: "8px",
+                              }}
+                              exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                              className="alert alert-error text-sm py-2"
+                            >
+                              <span>{groupError}</span>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    )}
+
                     <button
-                      onClick={handleReceive}
-                      disabled={!receiveCode || isFetching}
+                      onClick={
+                        receiveMode === "single"
+                          ? handleReceive
+                          : handleGroupDownload
+                      }
+                      disabled={
+                        (receiveMode === "single" && !receiveCode) ||
+                        (receiveMode === "group" && !groupCode) ||
+                        isFetching ||
+                        isDownloadingGroup
+                      }
                       className="w-full btn btn-primary btn-lg"
                     >
-                      {isFetching ? (
+                      {isFetching || isDownloadingGroup ? (
                         <Loader2 className="w-5 h-5 animate-spin" />
+                      ) : receiveMode === "single" ? (
+                        "Retrieve File"
                       ) : (
-                        "Retrieve Files"
+                        <span className="flex items-center gap-2">
+                          <FileArchive className="w-5 h-5" />
+                          Download Group as ZIP
+                        </span>
                       )}
                     </button>
                   </motion.div>
@@ -762,7 +972,8 @@ export default function HeroSection() {
                       <CheckCircle2 className="w-8 h-8 text-success flex-shrink-0" />
                       <div>
                         <h3 className="font-bold text-success">
-                          File Available!
+                          {receiveMode === "single" ? "File" : "Group"}{" "}
+                          Available!
                         </h3>
                         <p className="text-sm text-success/80">
                           Ready to download.
@@ -775,7 +986,14 @@ export default function HeroSection() {
                       download={receiveFileData.name}
                       className="w-full btn btn-primary btn-lg"
                     >
-                      Download Now
+                      {receiveMode === "single" ? (
+                        "Download Now"
+                      ) : (
+                        <span className="flex items-center gap-2">
+                          <FileArchive className="w-5 h-5" />
+                          Download ZIP
+                        </span>
+                      )}
                     </a>
                   </motion.div>
                 )}

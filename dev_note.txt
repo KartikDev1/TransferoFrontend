@@ -1,0 +1,46 @@
+//SEND MODAL
+Key changes made:
+
+Added a tabbed interface to switch between single file and group file mode
+
+Added new state variable sendMode to track the current mode
+
+Modified the UI to show appropriate content based on the mode:
+
+Different titles and icons
+
+Different button labels
+
+Different success messages
+
+Updated the success view to show:
+
+Single file QR code and code in single mode
+
+Group QR code and group code in group mode
+
+Added validation to prevent sending multiple files in single mode
+
+Added Folder icon for group mode
+
+Updated the API response handling to support group codes (you'll need to update your backend to return groupQrCodeBase64 and groupCode when in group mode)
+//////////////////////////////////////////////////////
+Note: You'll need to update your backend API to:
+
+Handle group file uploads differently than single files
+
+Return a group QR code and group code when in group mode
+
+Package multiple files into a single group with a shared code
+
+The backend should return something like this for group uploads:
+
+json
+{
+  "groupCode": "GRP123",
+  "groupQrCodeBase64": "base64-encoded-qr-code",
+  "files": [
+    { "shortCode": "ABC123", "qrCodeBase64": "...", "originalFileName": "file1.jpg" },
+    { "shortCode": "DEF456", "qrCodeBase64": "...", "originalFileName": "file2.pdf" }
+  ]
+}
