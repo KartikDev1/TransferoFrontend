@@ -26,7 +26,7 @@ export const metadata = {
   ],
   authors: [{ name: "Transfero Team", url: "https://transfero.in" }],
   creator: "Transfero",
-  metadataBase: new URL("https://transfero.in"), // updated to custom domain
+  metadataBase: new URL("https://transfero.in"),
   openGraph: {
     title: "Transfero - Secure File Sharing & File Transfer Tool",
     description:
@@ -35,7 +35,7 @@ export const metadata = {
     siteName: "Transfero",
     images: [
       {
-        url: "https://transfero.in/transfero-logo2.png", // must be a real image hosted on domain
+        url: "https://transfero.in/transfero-logo2.png",
         width: 1200,
         height: 630,
         alt: "Transfero - File Sharing",
@@ -49,13 +49,13 @@ export const metadata = {
     title: "Transfero - Secure File Sharing",
     description:
       "Transfer files instantly and privately with Transfero. QR code, link sharing, and no sign-up required.",
-    creator: "@yourhandle", // optional: replace with real Twitter handle
+    creator: "@yourhandle",
     images: ["https://transfero.in/transfero-logo2.png"],
   },
 };
 
 export default function RootLayout({ children }) {
-  const maintenanceMode = false; // 🔧 Toggle this to false to disable maintenance
+  const maintenanceMode = false; // 🔧 Set to true to enable maintenance mode
 
   return (
     <html lang="en">
@@ -65,9 +65,12 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${manrope.className} bg-[#f5f5fc] text-gray-800`}>
         {maintenanceMode ? (
-          <MaintenancePage /> // 👈 Shows maintenance UI
+          <MaintenancePage />
         ) : (
-          <>{children}</>
+          <AppWrapper>
+            {children}
+            <Footer />
+          </AppWrapper>
         )}
       </body>
     </html>
