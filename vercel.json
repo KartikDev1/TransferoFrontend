@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "https://transferoo.vercel.app/:path*",
+      "destination": "https://transfero.in/:path*",
+      "permanent": true
+    }
+  ]
+}
