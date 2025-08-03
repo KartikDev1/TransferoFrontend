@@ -19,17 +19,17 @@ const faqs = [
   {
     question: "How long are files stored?",
     answer:
-      "Files are temporarily stored for 24 hours to ensure successful delivery, then automatically deleted from our servers for your privacy and security.",
+      "Files are temporarily stored for 5 min to ensure successful delivery, then automatically deleted from our servers for your privacy and security.",
   },
   {
     question: "What file types are supported?",
     answer:
-      "Transfero supports all common file types including documents, images, videos, and archives. There's a 5GB limit per file transfer.",
+      "Transfero supports all common file types including documents, images, videos, and archives. There's a 50MB limit per file transfer.",
   },
   {
     question: "Is my data secure?",
     answer:
-      "Absolutely. All transfers are encrypted end-to-end, and files are automatically purged after 24 hours. We never access your files.",
+      "Absolutely. All transfers are encrypted end-to-end, and files are automatically purged after 5 min. We never access your files.",
   },
 ];
 

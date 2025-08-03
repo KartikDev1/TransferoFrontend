@@ -50,7 +50,7 @@ const features = [
     icon: <Clock4 className="w-6 h-6" />,
     title: "Auto-Delete",
     description:
-      "Files auto-delete after 24 hours to ensure privacy and reduce clutter.",
+      "Files auto-delete after 5 min ensure privacy and reduce clutter.",
     color: "bg-teal-100 text-teal-600",
   },
 ];
