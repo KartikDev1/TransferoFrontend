@@ -1,4 +1,3 @@
-// src/app/layout.js
 import "./globals.css";
 import { Manrope } from "next/font/google";
 import AppWrapper from "@/components/AppWrapper";
@@ -11,6 +10,7 @@ const manrope = Manrope({
 });
 
 export const metadata = {
+  // --- General Metadata ---
   title: "Transfero - Secure File Sharing & File Transfer Tool",
   description:
     "Transfero lets you send and receive large files securely and instantly with QR code and short links. No sign-up required. 100% private.",
@@ -24,6 +24,14 @@ export const metadata = {
     "no sign up file sharing",
     "encrypted file transfer",
   ],
+
+  // ✨ ADDED: Theme color and icons are now managed here
+  themeColor: "#ffffff",
+  icons: {
+    icon: "/favicon.ico", // Assumes favicon.ico is in the app/ directory
+  },
+
+  // --- Author and Open Graph ---
   authors: [{ name: "Transfero Team", url: "https://transfero.in" }],
   creator: "Transfero",
   metadataBase: new URL("https://transfero.in"),
@@ -35,7 +43,7 @@ export const metadata = {
     siteName: "Transfero",
     images: [
       {
-        url: "https://transfero.in/transfero-logo2.png",
+        url: "/transfero-logo2.png", // Using relative path is better with metadataBase
         width: 1200,
         height: 630,
         alt: "Transfero - File Sharing",
@@ -44,13 +52,15 @@ export const metadata = {
     locale: "en_US",
     type: "website",
   },
+
+  // --- Twitter Card ---
   twitter: {
     card: "summary_large_image",
     title: "Transfero - Secure File Sharing",
     description:
       "Transfer files instantly and privately with Transfero. QR code, link sharing, and no sign-up required.",
-    creator: "@yourhandle",
-    images: ["https://transfero.in/transfero-logo2.png"],
+    creator: "@your_twitter_handle", // 👈 IMPORTANT: Replace with your actual Twitter handle
+    images: ["/transfero-logo2.png"], // Using relative path
   },
 };
 
@@ -59,10 +69,7 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="theme-color" content="#ffffff" />
-      </head>
+      {/* 🗑️ REMOVED: The manual <head> tag is gone. Next.js handles this now. */}
       <body className={`${manrope.className} bg-[#f5f5fc] text-gray-800`}>
         {maintenanceMode ? (
           <MaintenancePage />
