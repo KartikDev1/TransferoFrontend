@@ -31,7 +31,7 @@ export const metadata = {
   ],
 
   icons: {
-    icon: "/favicon.ico",
+    icon: [{ url: "/favicon.ico" }, { url: "/favicon.png", type: "image/png" }],
   },
 
   // --- Author and Open Graph ---
