@@ -1,40 +1,15 @@
-// src/components/SplashScreen.jsx
 "use client";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-// Framer Motion variants for staggered animations
-const splashVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3, // Time delay between each child animation
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
-
 export default function SplashScreen() {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Hide the splash screen after a delay
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 3000); // Total splash screen visibility duration
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -44,48 +19,127 @@ export default function SplashScreen() {
       {isVisible && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 0.98 }} // Graceful exit animation
-          transition={{ duration: 0.5, ease: "easeIn" }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-violet-100 via-white to-indigo-100"
+          exit={{
+            opacity: 0,
+            transition: {
+              duration: 0.5,
+              ease: [0.22, 1, 0.36, 1],
+            },
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-violet-50"
         >
-          <motion.div
-            variants={splashVariants}
-            initial="hidden"
-            animate="visible"
-            className="flex flex-col items-center justify-center gap-4 text-center"
-          >
-            {/* Logo */}
-            <motion.div variants={itemVariants}>
+          <div className="flex flex-col items-center justify-center gap-6 text-center">
+            {/* Logo with floating animation */}
+            <motion.div
+              initial={{ y: -20, opacity: 0, scale: 0.8 }}
+              animate={{
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                transition: {
+                  type: "spring",
+                  damping: 7,
+                  stiffness: 100,
+                  delay: 0.1,
+                },
+              }}
+              className="relative"
+            >
               <Image
                 src="/transfero-logo2.png"
                 alt="Transfero Logo"
-                width={120} // Slightly larger for more impact
-                height={120}
-                priority // Preload the logo image
+                width={140}
+                height={140}
+                priority
+                className="drop-shadow-lg"
+              />
+              <motion.div
+                className="absolute inset-0 rounded-full bg-indigo-500/10 -z-10"
+                initial={{ scale: 0.8 }}
+                animate={{
+                  scale: 1.2,
+                  transition: {
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                  },
+                }}
               />
             </motion.div>
 
-            {/* Title */}
-            <motion.h1
-              variants={itemVariants}
-              className="text-3xl font-bold tracking-tight text-slate-800"
-            >
-              Transfero
-            </motion.h1>
+            {/* Title with character stagger */}
+            <motion.div className="overflow-hidden">
+              <motion.h1
+                initial={{ y: 40 }}
+                animate={{ y: 0 }}
+                transition={{
+                  delay: 0.3,
+                  type: "spring",
+                  damping: 12,
+                  stiffness: 100,
+                }}
+                className="text-4xl font-bold tracking-tight text-slate-800"
+              >
+                {"Transfero".split("").map((char, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ y: 40, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{
+                      delay: 0.3 + i * 0.05,
+                      type: "spring",
+                      damping: 12,
+                      stiffness: 100,
+                    }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </motion.h1>
+            </motion.div>
 
-            {/* Subtitle */}
+            {/* Subtitle with fade-in */}
             <motion.p
-              variants={itemVariants}
-              className="text-md text-slate-600"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                transition: {
+                  delay: 0.7,
+                  duration: 0.8,
+                  ease: [0.22, 1, 0.36, 1],
+                },
+              }}
+              className="text-lg text-slate-600 max-w-xs"
             >
-              Securely Send Files Instantly
+              Secure, instant file transfers
             </motion.p>
 
-            {/* Loading Spinner from DaisyUI */}
-            <motion.div variants={itemVariants}>
-              <span className="loading loading-spinner loading-md text-indigo-500 mt-4"></span>
+            {/* Animated loading dots */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: 1,
+                transition: { delay: 1 },
+              }}
+              className="flex gap-1 mt-6"
+            >
+              {[...Array(3)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="w-2 h-2 rounded-full bg-indigo-500"
+                  animate={{
+                    y: [0, -8, 0],
+                    transition: {
+                      duration: 1.2,
+                      repeat: Infinity,
+                      delay: i * 0.2,
+                    },
+                  }}
+                />
+              ))}
             </motion.div>
-          </motion.div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

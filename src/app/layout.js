@@ -9,6 +9,11 @@ const manrope = Manrope({
   weight: ["400", "600", "700"],
 });
 
+// ✅ Correct place for themeColor now
+export const viewport = {
+  themeColor: "#ffffff",
+};
+
 export const metadata = {
   // --- General Metadata ---
   title: "Transfero - Secure File Sharing & File Transfer Tool",
@@ -25,10 +30,8 @@ export const metadata = {
     "encrypted file transfer",
   ],
 
-  // ✨ ADDED: Theme color and icons are now managed here
-  themeColor: "#ffffff",
   icons: {
-    icon: "/favicon.ico", // Assumes favicon.ico is in the app/ directory
+    icon: "/favicon.ico",
   },
 
   // --- Author and Open Graph ---
@@ -43,7 +46,7 @@ export const metadata = {
     siteName: "Transfero",
     images: [
       {
-        url: "/transfero-logo2.png", // Using relative path is better with metadataBase
+        url: "/transfero-logo2.png",
         width: 1200,
         height: 630,
         alt: "Transfero - File Sharing",
@@ -59,17 +62,16 @@ export const metadata = {
     title: "Transfero - Secure File Sharing",
     description:
       "Transfer files instantly and privately with Transfero. QR code, link sharing, and no sign-up required.",
-    creator: "@your_twitter_handle", // 👈 IMPORTANT: Replace with your actual Twitter handle
-    images: ["/transfero-logo2.png"], // Using relative path
+    creator: "@your_twitter_handle", // Replace with actual Twitter handle
+    images: ["/transfero-logo2.png"],
   },
 };
 
 export default function RootLayout({ children }) {
-  const maintenanceMode = false; // 🔧 Set to true to enable maintenance mode
+  const maintenanceMode = false;
 
   return (
     <html lang="en">
-      {/* 🗑️ REMOVED: The manual <head> tag is gone. Next.js handles this now. */}
       <body className={`${manrope.className} bg-[#f5f5fc] text-gray-800`}>
         {maintenanceMode ? (
           <MaintenancePage />
