@@ -18,7 +18,7 @@ const Footer = () => {
     { icon: <Twitter size={18} />, href: "https://twitter.com" },
     { icon: <Instagram size={18} />, href: "https://instagram.com" },
     { icon: <Facebook size={18} />, href: "https://facebook.com" },
-    { icon: <Mail size={18} />, href: "mailto:transfero101@gmail.com" },
+    { icon: <Mail size={18} />, href: "mailto:transfero1018@gmail.com" },
   ];
 
   return (
@@ -88,11 +88,11 @@ const Footer = () => {
             <address className="not-italic space-y-3 text-sm text-gray-600">
               <div>
                 <a
-                  href="mailto:transfero101@gmail.com"
+                  href="mailto:transfero1018@gmail.com"
                   className="hover:text-primary transition-colors flex items-start"
                 >
                   <Mail className="w-4 h-4 mr-2 mt-0.5 text-primary/70" />
-                  <span>transfero101@gmail.com</span>
+                  <span>transfero1018@gmail.com</span>
                 </a>
               </div>
               <div className="flex items-start">
