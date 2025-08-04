@@ -85,7 +85,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const maintenanceMode = false;
+  const maintenanceMode = true;
 
   return (
     <html lang="en">
