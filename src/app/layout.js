@@ -87,8 +87,6 @@ export const metadata = {
   },
 };
 
-import Script from "next/script";
-
 export default function RootLayout({ children }) {
   const maintenanceMode = false;
 
