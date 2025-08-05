@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import MaintenancePage from "./maintenance/page";
 import { Analytics } from "@vercel/analytics/react";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
+import Script from "next/script";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -86,11 +87,21 @@ export const metadata = {
   },
 };
 
+import Script from "next/script";
+
 export default function RootLayout({ children }) {
   const maintenanceMode = false;
 
   return (
     <html lang="en">
+      <head>
+        {/* ✅ Cloudflare Web Analytics */}
+        <Script
+          strategy="afterInteractive"
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "200dd28495dc4e08a95905b93e28bedf"}'
+        />
+      </head>
       <body className={`${manrope.className} bg-[#f5f5fc] text-gray-800`}>
         {maintenanceMode ? (
           <MaintenancePage />
