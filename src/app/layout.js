@@ -3,6 +3,8 @@ import { Manrope } from "next/font/google";
 import AppWrapper from "@/components/AppWrapper";
 import Footer from "@/components/Footer";
 import MaintenancePage from "./maintenance/page";
+import { Analytics } from "@vercel/analytics/react";
+import CookieConsentBanner from "@/components/CookieConsentBanner";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -85,7 +87,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const maintenanceMode = true;
+  const maintenanceMode = false;
 
   return (
     <html lang="en">
@@ -98,6 +100,8 @@ export default function RootLayout({ children }) {
             <Footer />
           </AppWrapper>
         )}
+        <Analytics />
+        <CookieConsentBanner />
       </body>
     </html>
   );

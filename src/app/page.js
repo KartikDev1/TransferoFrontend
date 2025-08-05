@@ -1,12 +1,20 @@
 // src/app/page.js
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
+import { track } from "@vercel/analytics";
+
 import HeroSection from "@/components/HeroSection";
 import HowItWorks from "@/components/HowItWorks";
 import HomeFAQ from "@/components/HomeFAQ";
 import UseCases from "@/components/UseCases";
 import Features from "@/components/Features";
 
-const page = () => {
+const Page = () => {
+  useEffect(() => {
+    track("homepage_visited");
+  }, []);
+
   return (
     <div>
       <HeroSection />
@@ -18,4 +26,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
