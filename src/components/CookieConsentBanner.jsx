@@ -7,6 +7,8 @@ export default function CookieConsentBanner() {
     <CookieConsent
       location="bottom"
       buttonText="Accept"
+      declineButtonText="Reject"
+      enableDeclineButton
       cookieName="transfero_cookie_consent"
       style={{
         background: "#f3f4f6", // Tailwind's gray-100
@@ -24,6 +26,14 @@ export default function CookieConsentBanner() {
         fontSize: "13px",
         padding: "6px 12px",
         borderRadius: "0.375rem",
+      }}
+      declineButtonStyle={{
+        background: "#e5e7eb", // Tailwind's gray-200
+        color: "#1f2937", // Tailwind's gray-800
+        fontSize: "13px",
+        padding: "6px 12px",
+        borderRadius: "0.375rem",
+        marginLeft: "8px",
       }}
       expires={365}
     >
