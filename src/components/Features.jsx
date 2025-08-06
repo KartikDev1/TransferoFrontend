@@ -1,5 +1,3 @@
-// components/Features.jsx
-"use client";
 import { motion } from "framer-motion";
 import {
   ShieldCheck,
@@ -67,6 +65,7 @@ const FeatureCard = ({ item, index }) => {
       <div className="h-full bg-white border border-gray-100 rounded-xl p-6 hover:shadow-md transition-all hover:border-gray-200 group">
         <div
           className={`w-12 h-12 rounded-lg ${item.color} flex items-center justify-center mb-4`}
+          aria-hidden="true"
         >
           {item.icon}
         </div>

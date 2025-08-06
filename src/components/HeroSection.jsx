@@ -1,4 +1,3 @@
-"use client";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Upload,
@@ -15,15 +14,13 @@ import {
   Share2,
   ChevronLeft,
   ChevronRight,
-  FileArchive, // Add this import
+  FileArchive,
   Folder,
 } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import QRCode from "react-qr-code";
 import { toast, Toaster } from "react-hot-toast";
 import Confetti from "react-confetti";
-import { track } from "@vercel/analytics";
 
 import { sendFile, downloadFile, downloadGroup } from "../services/api";
 
@@ -257,28 +254,6 @@ export default function HeroSection() {
     }
   };
 
-  // const handleSend = async () => {
-  //   if (!selectedFiles.length) return;
-
-  //   setIsUploading(true);
-
-  //   try {
-  //     const responseData = await sendFile(selectedFiles);
-  //     console.log("ResponseData from sendFile =>", responseData);
-
-  //     setDownloadData(responseData);
-  //     setCurrentQrIndex(0);
-  //     setShowConfetti(true);
-  //     setTimeout(() => setShowConfetti(false), 4000);
-  //   } catch (error) {
-  //     console.error("Error sending files:", error);
-  //     toast.error(
-  //       error.response?.data?.message || "An error occurred while uploading."
-  //     );
-  //   } finally {
-  //     setIsUploading(false);
-  //   }
-  // };
   const handleSend = async () => {
     if (!selectedFiles.length) return;
 
@@ -286,18 +261,10 @@ export default function HeroSection() {
 
     try {
       const responseData = await sendFile(selectedFiles);
-      console.log("ResponseData from sendFile =>", responseData);
 
       setDownloadData(responseData);
       setCurrentQrIndex(0);
       setShowConfetti(true);
-
-      // ✅ Track successful file send event
-      track("file_sent", {
-        fileCount: selectedFiles.length,
-        totalSize: selectedFiles.reduce((acc, file) => acc + file.size, 0), // in bytes
-      });
-
       setTimeout(() => setShowConfetti(false), 4000);
     } catch (error) {
       console.error("Error sending files:", error);
@@ -314,58 +281,6 @@ export default function HeroSection() {
     toast.success("Code copied to clipboard!");
   };
 
-  // const handleReceive = async () => {
-  //   setIsFetching(true);
-  //   setReceiveError("");
-  //   setReceiveFileData(null);
-
-  //   try {
-  //     const code = receiveCode.trim().toUpperCase();
-
-  //     // Call the single file download API
-  //     const { blob, filename, contentType, originalFileName } =
-  //       await downloadFile(code);
-
-  //     // Create download link
-  //     const url = window.URL.createObjectURL(blob);
-  //     const a = document.createElement("a");
-  //     a.href = url;
-  //     a.download = originalFileName || filename;
-  //     document.body.appendChild(a);
-  //     a.click();
-
-  //     // Cleanup
-  //     setTimeout(() => {
-  //       window.URL.revokeObjectURL(url);
-  //       document.body.removeChild(a);
-  //     }, 100);
-
-  //     // Update UI state
-  //     setReceiveFileData({
-  //       name: originalFileName || filename,
-  //       type: contentType,
-  //       url,
-  //     });
-
-  //     toast.success("File downloaded successfully!");
-  //   } catch (error) {
-  //     console.error("Error receiving file:", error);
-  //     let errorMessage = "File download failed";
-
-  //     if (error.message.includes("Network Error")) {
-  //       errorMessage = "Network connection failed";
-  //     } else if (error.response?.status === 404) {
-  //       errorMessage = "File not found - check the code";
-  //     } else if (error.response?.status === 410) {
-  //       errorMessage = "File expired or was already downloaded";
-  //     }
-
-  //     setReceiveError(errorMessage);
-  //     toast.error(errorMessage);
-  //   } finally {
-  //     setIsFetching(false);
-  //   }
-  // };
   const handleReceive = async () => {
     setIsFetching(true);
     setReceiveError("");
@@ -374,9 +289,11 @@ export default function HeroSection() {
     try {
       const code = receiveCode.trim().toUpperCase();
 
+      // Call the single file download API
       const { blob, filename, contentType, originalFileName } =
         await downloadFile(code);
 
+      // Create download link
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -384,11 +301,13 @@ export default function HeroSection() {
       document.body.appendChild(a);
       a.click();
 
+      // Cleanup
       setTimeout(() => {
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
       }, 100);
 
+      // Update UI state
       setReceiveFileData({
         name: originalFileName || filename,
         type: contentType,
@@ -396,13 +315,6 @@ export default function HeroSection() {
       });
 
       toast.success("File downloaded successfully!");
-
-      // ✅ Track file received
-      track("file_received", {
-        codeUsed: code,
-        fileName: originalFileName || filename,
-        fileType: contentType,
-      });
     } catch (error) {
       console.error("Error receiving file:", error);
       let errorMessage = "File download failed";

@@ -1,6 +1,3 @@
-// components/UseCases.jsx
-"use client";
-// components/UseCases.jsx
 import { Laptop, Users, Briefcase, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -44,18 +41,22 @@ const UseCaseCard = ({ item, index }) => {
       viewport={{ once: true, margin: "-50px" }}
       className="h-full"
     >
-      <div className="h-full bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden group hover:border-gray-200 cursor-default select-text">
-        <div className={`h-2 bg-gradient-to-r ${item.color}`}></div>
+      <div className="h-full bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden group hover:border-gray-200">
+        <div
+          className={`h-2 bg-gradient-to-r ${item.color}`}
+          aria-hidden="true"
+        ></div>
         <div className="p-6">
           <div
             className={`mb-4 w-12 h-12 rounded-lg bg-gradient-to-br ${item.color} flex items-center justify-center text-white`}
+            aria-hidden="true"
           >
             {item.icon}
           </div>
-          <h3 className="text-lg font-semibold mb-2 text-gray-800 select-text">
+          <h3 className="text-lg font-semibold mb-2 text-gray-800">
             {item.title}
           </h3>
-          <p className="text-gray-600 text-sm leading-relaxed select-text">
+          <p className="text-gray-600 text-sm leading-relaxed">
             {item.description}
           </p>
         </div>

@@ -1,5 +1,3 @@
-"use client";
-import React from "react";
 import {
   Upload,
   Send,
@@ -10,12 +8,6 @@ import {
   QrCode,
 } from "lucide-react";
 import { motion } from "framer-motion";
-
-// This is a placeholder for your App component.
-// In a real app, you would import and use the HowItWorks component.
-export default function App() {
-  return <HowItWorks />;
-}
 
 const HowItWorks = () => {
   // Data for the steps section
@@ -88,7 +80,7 @@ const HowItWorks = () => {
       {/* "How It Works" Section */}
       <section className="w-full bg-slate-50 text-slate-800 py-24 sm:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          {/* Section Header */}
+          {/* Section Header with semantic h1 for SEO */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -96,9 +88,9 @@ const HowItWorks = () => {
             transition={{ duration: 0.5 }}
             className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
               How It Works
-            </h2>
+            </h1>
             <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">
               Share files in four simple steps. Secure, private, and incredibly
               fast.
@@ -126,12 +118,12 @@ const HowItWorks = () => {
                     <span className={step.color}>{step.icon}</span>
                   </div>
                   <div className="mt-6">
-                    <h3 className="text-xl font-bold text-slate-900 mb-2">
+                    <h2 className="text-xl font-bold text-slate-900 mb-2">
                       <span className="text-gray-400 font-medium">{`Step ${
                         index + 1
                       }: `}</span>
                       {step.title}
-                    </h3>
+                    </h2>
                     <p className="text-slate-600 px-2">{step.description}</p>
                   </div>
                 </motion.div>
@@ -143,3 +135,5 @@ const HowItWorks = () => {
     </main>
   );
 };
+
+export default HowItWorks;
