@@ -1,4 +1,7 @@
+# *
 User-agent: *
 Allow: /
 
+
+# Sitemaps
 Sitemap: https://transfero.in/sitemap.xml
