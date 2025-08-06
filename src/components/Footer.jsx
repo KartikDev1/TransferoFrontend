@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Mail, Twitter, Instagram, Facebook } from "lucide-react";
-import { motion } from "framer-motion";
 
 const Footer = () => {
   const quickLinks = [
