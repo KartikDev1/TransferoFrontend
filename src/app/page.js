@@ -64,10 +64,11 @@ export default function HomePage() {
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-8 leading-tight tracking-tighter text-slate-900">
-            Transfero: Where Files
-            <br className="hidden sm:inline" />
+            Transfero: Where
+            <span className="inline-block sm:inline">Files Move</span>
             <span className="whitespace-nowrap bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
-              Move Like Magic
+              {" "}
+              Like Magic
             </span>
           </h1>
 
