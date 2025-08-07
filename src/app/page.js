@@ -312,7 +312,7 @@ export default function HomePage() {
                 href="/share"
                 className="inline-flex items-center justify-center px-10 py-4 text-lg font-bold rounded-lg shadow-lg bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:shadow-xl hover:shadow-blue-500/30 transition-all transform hover:scale-105"
               >
-                Get Started - It's Free
+                Get Started - It&apos;s Free
               </Link>
             </div>
           </div>
