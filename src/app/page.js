@@ -390,7 +390,7 @@ function Navbar() {
         <div className="flex justify-between h-16 items-center">
           <Link href="/" className="flex items-center gap-3">
             <Image
-              src="/transfero-logo2.png" // This should be your blue/violet logo
+              src="/transfero-logo2.png"
               alt="Transfero Logo"
               width={40}
               height={40}
@@ -400,6 +400,8 @@ function Navbar() {
               Transfero
             </span>
           </Link>
+
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map(({ href, label }) => (
               <Link
@@ -412,10 +414,38 @@ function Navbar() {
               </Link>
             ))}
           </div>
+
+          {/* Mobile Navigation */}
           <div className="md:hidden flex items-center">
-            <button className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 transition-colors">
+            {/* Hidden checkbox that controls the menu */}
+            <input
+              type="checkbox"
+              id="mobile-menu-toggle"
+              className="hidden peer"
+            />
+
+            {/* Hamburger button (label for the checkbox) */}
+            <label
+              htmlFor="mobile-menu-toggle"
+              className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 transition-colors cursor-pointer"
+            >
               <Menu className="w-5 h-5 text-slate-700" />
-            </button>
+            </label>
+
+            {/* Mobile menu that appears when checkbox is checked */}
+            <div className="hidden peer-checked:block absolute top-16 left-0 right-0 bg-white shadow-lg border-t border-slate-100 py-4 px-6">
+              <div className="flex flex-col space-y-3">
+                {navLinks.map(({ href, label }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="px-4 py-2 text-slate-700 hover:text-blue-600 font-medium transition-colors"
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
