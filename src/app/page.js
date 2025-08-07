@@ -60,7 +60,7 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center z-10">
           <div className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-100 to-blue-200 px-4 py-2 text-sm font-semibold text-blue-700 mb-8 shadow-sm ring-1 ring-blue-200/50 hover:shadow-md transition-shadow animate-[pulse_2s_ease-in-out_infinite]">
             <Zap className="w-5 h-5 mr-2 text-blue-600 animate-[pulse_1.5s_ease-in-out_infinite]" />
-            No Signup Required - Start Instantly
+            No Login Required - Start Instantly
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-8 leading-tight tracking-tighter text-slate-900">
