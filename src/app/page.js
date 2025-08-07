@@ -123,10 +123,10 @@ export default function HomePage() {
               <Rocket className="w-4 h-4 mr-2 text-blue-500" />
               <span>10x Faster Transfers</span>
             </div>
-            <div className="flex items-center bg-white/80 px-4 py-2 rounded-lg shadow-sm ring-1 ring-blue-100/50">
+            {/* <div className="flex items-center bg-white/80 px-4 py-2 rounded-lg shadow-sm ring-1 ring-blue-100/50">
               <Infinity className="w-4 h-4 mr-2 text-violet-500" />
               <span>No Size Limits</span>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
