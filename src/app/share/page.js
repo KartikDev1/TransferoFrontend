@@ -23,7 +23,7 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { toast, Toaster } from "react-hot-toast";
 import Confetti from "react-confetti";
 
-import { sendFile, downloadFile, downloadGroup } from "../services/api";
+import { sendFile, downloadFile, downloadGroup } from "../../services/api";
 
 const AnimatedLogo = () => {
   return (

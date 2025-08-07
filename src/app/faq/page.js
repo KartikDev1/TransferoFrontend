@@ -1,5 +1,4 @@
 "use client";
-
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import {
@@ -200,7 +199,8 @@ export default function FAQPage() {
           <div className="inline-block bg-white rounded-xl shadow-sm p-6 max-w-2xl">
             <h3 className="text-xl font-semibold mb-3">Still need help?</h3>
             <p className="text-gray-600 mb-4">
-                Can&#39;t find what you&#39;re looking for? Our team is happy to help.
+              Can&#39;t find what you&#39;re looking for? Our team is happy to
+              help.
             </p>
 
             <a

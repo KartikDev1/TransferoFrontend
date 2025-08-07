@@ -1,3 +1,6 @@
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+
 export const metadata = {
   title: "FAQ | Transfero - Frequently Asked Questions",
   description:
@@ -7,5 +10,11 @@ export const metadata = {
 };
 
 export default function FAQLayout({ children }) {
-  return <section className="min-h-screen bg-gray-50">{children}</section>;
+  return (
+    <section className="min-h-screen bg-gray-50">
+      <Navbar />
+      {children}
+      <Footer />
+    </section>
+  );
 }

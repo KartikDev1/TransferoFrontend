@@ -1,3 +1,6 @@
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+
 // src/app/about/layout.js
 export const metadata = {
   title: "About Transfero - Fast & Secure Cross-Platform File Sharing",
@@ -8,5 +11,11 @@ export const metadata = {
 };
 
 export default function AboutLayout({ children }) {
-  return <>{children}</>;
+  return (
+    <>
+      <Navbar />
+      {children}
+      <Footer />
+    </>
+  );
 }

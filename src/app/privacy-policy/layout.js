@@ -1,3 +1,6 @@
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+
 // app/privacy-policy/layout.js
 export const metadata = {
   title: "Privacy Policy | Transfero",
@@ -8,5 +11,11 @@ export const metadata = {
 };
 
 export default function PrivacyPolicyLayout({ children }) {
-  return <section className="min-h-screen bg-gray-50">{children}</section>;
+  return (
+    <section className="min-h-screen bg-gray-50">
+      <Navbar />
+      {children}
+      <Footer />
+    </section>
+  );
 }

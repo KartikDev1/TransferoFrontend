@@ -1,7 +1,6 @@
 import "./globals.css";
 import { Manrope } from "next/font/google";
 import AppWrapper from "@/components/AppWrapper";
-import Footer from "@/components/Footer";
 import MaintenancePage from "./maintenance/page";
 import { Analytics } from "@vercel/analytics/react";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
@@ -82,7 +81,7 @@ export const metadata = {
     title: "Transfero - Secure File Sharing",
     description:
       "Transfer files instantly and privately with Transfero. QR code, link sharing, and no sign-up required.",
-    creator: "@your_twitter_handle", // Replace with actual Twitter handle
+    creator: "@transfero_in",
     images: ["/transfero-logo2.png"],
   },
 };
@@ -104,10 +103,7 @@ export default function RootLayout({ children }) {
         {maintenanceMode ? (
           <MaintenancePage />
         ) : (
-          <AppWrapper>
-            {children}
-            <Footer />
-          </AppWrapper>
+          <AppWrapper>{children}</AppWrapper>
         )}
         <Analytics />
         <CookieConsentBanner />

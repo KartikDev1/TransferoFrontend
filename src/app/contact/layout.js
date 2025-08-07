@@ -1,3 +1,6 @@
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+
 export const metadata = {
   title: "Contact Transfero - Get in Touch",
   description:
@@ -9,7 +12,9 @@ export const metadata = {
 export default function ContactLayout({ children }) {
   return (
     <main className="min-h-screen bg-white" role="main">
+      <Navbar />
       {children}
+      <Footer />
     </main>
   );
 }

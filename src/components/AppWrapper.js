@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
-import Navbar from "./Navbar";
+// import Navbar from "./Navbar";
 import SplashScreen from "./SplashScreen";
 
 export default function AppWrapper({ children }) {
@@ -18,7 +18,7 @@ export default function AppWrapper({ children }) {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <main className="min-h-screen ">{children}</main>
       <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
     </>

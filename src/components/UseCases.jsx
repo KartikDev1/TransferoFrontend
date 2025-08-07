@@ -1,3 +1,4 @@
+"use client";
 import { Laptop, Users, Briefcase, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 

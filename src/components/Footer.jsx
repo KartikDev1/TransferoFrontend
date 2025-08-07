@@ -14,12 +14,12 @@ const Footer = () => {
   const socialLinks = [
     {
       icon: <Twitter size={18} />,
-      href: "https://twitter.com",
+      href: "https://x.com/transfero_in",
       label: "Twitter",
     },
     {
       icon: <Instagram size={18} />,
-      href: "https://instagram.com",
+      href: "https://www.instagram.com/transfero.in/#",
       label: "Instagram",
     },
     {
