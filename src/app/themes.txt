@@ -1,0 +1,549 @@
+ <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100/30">
+        {/* Subtle grid pattern overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:20px_20px] opacity-20"></div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center z-10">
+          <div className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-100 to-blue-200 px-4 py-2 text-sm font-semibold text-blue-700 mb-8 shadow-sm ring-1 ring-blue-200/50 hover:shadow-md transition-shadow animate-[pulse_2s_ease-in-out_infinite]">
+            <Zap className="w-5 h-5 mr-2 text-blue-600 animate-[pulse_1.5s_ease-in-out_infinite]" />
+            No Login Required - Start Instantly
+          </div>
+
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-8 leading-tight tracking-tighter text-slate-900">
+            <span className="whitespace-nowrap">Transfero:</span>
+            <span className="whitespace-nowrap sm:ml-1">Where</span>
+            <br className="sm:hidden" />
+            <span className="whitespace-nowrap sm:ml-1">Files</span>
+            <br className="hidden sm:inline" />
+            <span className="whitespace-nowrap bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
+              Move Like Magic
+            </span>
+          </h1>
+
+          <p className="text-lg md:text-xl text-slate-600/90 max-w-3xl mx-auto mb-12 leading-relaxed">
+            Transfero has evolved beyond simple file transfers. Experience
+            <span className="font-medium text-blue-600">
+              {" "}
+              military-secure sharing
+            </span>
+            ,
+            <span className="font-medium text-violet-600">
+              {" "}
+              intelligent automation
+            </span>
+            , and
+            <span className="font-medium text-teal-600">
+              {" "}
+              seamless collaboration
+            </span>{" "}
+            - all with the simplicity you love. No compromises.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/share"
+              className="relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl shadow-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group overflow-hidden"
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+              <span className="relative z-10 flex items-center">
+                Try Transfero Free
+                <ChevronRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
+
+            <Link
+              href="#features"
+              className="relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl border-2 border-blue-200 bg-white text-blue-700 hover:bg-blue-50/50 hover:border-blue-300 transition-all duration-300 hover:-translate-y-1 group"
+            >
+              <span className="relative z-10 flex items-center">
+                See How It Works
+                <PlayCircle className="w-5 h-5 ml-2 text-blue-600 transition-transform group-hover:scale-110" />
+              </span>
+            </Link>
+          </div>
+
+          <div className="mt-16 flex flex-wrap items-center justify-center gap-4 text-sm font-medium text-slate-700">
+            <div className="flex items-center bg-white/80 px-4 py-2 rounded-lg shadow-sm ring-1 ring-blue-100/50">
+              <ShieldCheck className="w-4 h-4 mr-2 text-emerald-500" />
+              <span>Bank-Level Security</span>
+            </div>
+            <div className="flex items-center bg-white/80 px-4 py-2 rounded-lg shadow-sm ring-1 ring-blue-100/50">
+              <Rocket className="w-4 h-4 mr-2 text-blue-500" />
+              <span>10x Faster Transfers</span>
+            </div>
+            {/* <div className="flex items-center bg-white/80 px-4 py-2 rounded-lg shadow-sm ring-1 ring-blue-100/50">
+              <Infinity className="w-4 h-4 mr-2 text-violet-500" />
+              <span>No Size Limits</span>
+            </div> */}
+          </div>
+        </div>
+      </section>
+
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      {/* STATS */}
+      <section className="bg-gradient-to-br from-blue-50 to-indigo-50 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-white text-primary shadow-sm mb-4">
+              Trust & Reliability
+            </span>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Trusted by <span className="text-primary">Professionals</span>{" "}
+              Worldwide
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Our numbers speak for themselves
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Stat Card 1 */}
+            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-primary mx-auto mb-4">
+                <Shield className="w-5 h-5" />
+              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-2">
+                Bank-Level
+              </div>
+              <h3 className="text-lg font-medium text-gray-800 mb-2">
+                Security
+              </h3>
+              <p className="text-gray-500 text-sm">
+                Your files are protected like financial transactions
+              </p>
+            </div>
+
+            {/* Stat Card 2 */}
+            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-primary mx-auto mb-4">
+                <Clock className="w-5 h-5" />
+              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-2">
+                99.99%
+              </div>
+              <h3 className="text-lg font-medium text-gray-800 mb-2">Uptime</h3>
+              <p className="text-gray-500 text-sm">
+                Available whenever you need it
+              </p>
+            </div>
+
+            {/* Stat Card 3 */}
+            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-primary mx-auto mb-4">
+                <Users className="w-5 h-5" />
+              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-2">10M+</div>
+              <h3 className="text-lg font-medium text-gray-800 mb-2">Users</h3>
+              <p className="text-gray-500 text-sm">
+                Files shared with confidence
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+       <section className="bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+          <div className="relative bg-slate-50 rounded-2xl shadow-lg shadow-slate-200/50 overflow-hidden">
+            {/* Decorative background glow */}
+            <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-tr from-blue-200 to-violet-200 rounded-full blur-3xl opacity-40"></div>
+            <div className="relative text-center p-12 z-10">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-slate-900 tracking-tight">
+                Ready to transform your workflow?
+              </h2>
+              <p className="text-lg text-slate-600 mb-10 max-w-2xl mx-auto">
+                Join thousands of professionals who trust Transfero for secure
+                and efficient file management.
+              </p>
+              <Link
+                href="/share"
+                className="inline-flex items-center justify-center px-10 py-4 text-lg font-bold rounded-lg shadow-lg bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:shadow-xl hover:shadow-blue-500/30 transition-all transform hover:scale-105"
+              >
+                Get Started - It&apos;s Free
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      function Footer() {
+  const quickLinks = [
+    { name: "About Us", href: "/about" },
+    { name: "Contact", href: "/contact" },
+    { name: "FAQ", href: "/faq" },
+    { name: "Terms", href: "/terms-of-service" },
+    { name: "Privacy", href: "/privacy-policy" },
+  ];
+
+  const socialLinks = [
+    {
+      icon: <Twitter size={18} />,
+      href: "https://twitter.com",
+      label: "Twitter",
+    },
+    {
+      icon: <Instagram size={18} />,
+      href: "https://instagram.com",
+      label: "Instagram",
+    },
+    {
+      icon: <Facebook size={18} />,
+      href: "https://facebook.com",
+      label: "Facebook",
+    },
+    {
+      icon: <Mail size={18} />,
+      href: "mailto:transfero1018@gmail.com",
+      label: "Email",
+    },
+  ];
+
+  return (
+    <footer className="bg-white border-t border-slate-100 pt-16 pb-8">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8">
+          <div className="flex flex-col items-start">
+            <Link href="/" className="mb-3" aria-label="Transfero Home">
+              <Image
+                src="/favicon.ico"
+                alt="Transfero Logo"
+                width={48}
+                height={48}
+                className="w-12 h-12 object-contain"
+                priority
+              />
+            </Link>
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">
+              Transfero
+            </h2>
+            <p className="text-slate-600 leading-relaxed">
+              Secure file transfers made simple. Fast, reliable, and private.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-sm font-medium text-slate-500 uppercase tracking-wider mb-4">
+              Navigation
+            </h3>
+            <ul className="space-y-3">
+              {quickLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="group">
+                    <div className="flex items-center text-slate-700 hover:text-blue-600 transition-colors">
+                      <ArrowRight
+                        className="w-3.5 h-3.5 mr-2 text-blue-600/70"
+                        aria-hidden="true"
+                      />
+                      <span className="text-sm">{link.name}</span>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-medium text-slate-500 uppercase tracking-wider mb-4">
+              Contact Us
+            </h3>
+            <address className="not-italic space-y-3 text-sm text-slate-600">
+              <div>
+                <a
+                  href="mailto:transfero1018@gmail.com"
+                  className="hover:text-blue-600 transition-colors flex items-start"
+                  aria-label="Email us at transfero1018@gmail.com"
+                >
+                  <Mail
+                    className="w-4 h-4 mr-2 mt-0.5 text-blue-600/70"
+                    aria-hidden="true"
+                  />
+                  <span>transfero1018@gmail.com</span>
+                </a>
+              </div>
+              <div className="flex items-start">
+                <svg
+                  className="w-4 h-4 mr-2 mt-0.5 text-blue-600/70"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+                <span>Mumbai, India</span>
+              </div>
+            </address>
+          </div>
+          <div>
+            <h3 className="text-sm font-medium text-slate-500 uppercase tracking-wider mb-4">
+              Connect
+            </h3>
+            <div className="flex space-x-3">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.href}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Follow us on ${social.label}`}
+                  className="text-slate-500 hover:text-blue-600 p-2 transition-colors"
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="mt-16 pt-8 border-t border-slate-100 text-center text-sm text-slate-500">
+          &copy; {new Date().getFullYear()} Transfero. All rights reserved.
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function Navbar() {
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
+    { href: "/contact", label: "Contact" },
+    { href: "/faq", label: "FAQ" },
+    { href: "/terms-of-service", label: "Terms" },
+    { href: "/privacy-policy", label: "Privacy" },
+  ];
+
+  return (
+    <nav className="bg-white/90 backdrop-blur-lg shadow-sm sticky top-0 z-50 border-b border-slate-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16 items-center">
+          <Link href="/" className="flex items-center gap-3">
+            <Image
+              src="/transfero_ind.png"
+              alt="Transfero Logo"
+              width={40}
+              height={40}
+              className="object-contain"
+            />
+            {/* <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
+              Transfero
+            </span> */}
+            <span className="text-2xl font-bold bg-gradient-to-r from-[#FF9933] to-[#138808] bg-clip-text text-transparent drop-shadow-sm">
+              Transfero
+            </span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className="relative px-4 py-2 group text-slate-700 hover:text-blue-600 font-medium transition-colors"
+              >
+                {label}
+                <span className="absolute bottom-1 left-0 h-0.5 bg-blue-600 w-0 group-hover:w-full transition-all duration-300"></span>
+              </Link>
+            ))}
+          </div>
+
+          {/* Mobile Navigation */}
+          <div className="md:hidden flex items-center">
+            {/* Hidden checkbox that controls the menu */}
+            <input
+              type="checkbox"
+              id="mobile-menu-toggle"
+              className="hidden peer"
+            />
+
+            {/* Hamburger button (label for the checkbox) */}
+            <label
+              htmlFor="mobile-menu-toggle"
+              className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 transition-colors cursor-pointer"
+            >
+              <Menu className="w-5 h-5 text-slate-700" />
+            </label>
+
+            {/* Mobile menu that appears when checkbox is checked */}
+            <div className="hidden peer-checked:block absolute top-16 left-0 right-0 bg-white shadow-lg border-t border-slate-100 py-4 px-6">
+              <div className="flex flex-col space-y-3">
+                {navLinks.map(({ href, label }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="px-4 py-2 text-slate-700 hover:text-blue-600 font-medium transition-colors"
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+"use client";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+
+export default function SplashScreen() {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 1 }}
+          exit={{
+            opacity: 0,
+            transition: {
+              duration: 0.5,
+              ease: [0.22, 1, 0.36, 1],
+            },
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-violet-50"
+        >
+          <div className="flex flex-col items-center justify-center gap-6 text-center">
+            {/* Logo with floating animation */}
+            <motion.div
+              initial={{ y: -20, opacity: 0, scale: 0.8 }}
+              animate={{
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                transition: {
+                  type: "spring",
+                  damping: 7,
+                  stiffness: 100,
+                  delay: 0.1,
+                },
+              }}
+              className="relative"
+            >
+              <Image
+                src="/transfero-logo2.png"
+                alt="Transfero Logo"
+                width={140}
+                height={140}
+                priority
+                className="drop-shadow-lg"
+              />
+              <motion.div
+                className="absolute inset-0 rounded-full bg-indigo-500/10 -z-10"
+                initial={{ scale: 0.8 }}
+                animate={{
+                  scale: 1.2,
+                  transition: {
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                  },
+                }}
+              />
+            </motion.div>
+
+            {/* Title with character stagger */}
+            <motion.div className="overflow-hidden">
+              <motion.h1
+                initial={{ y: 40 }}
+                animate={{ y: 0 }}
+                transition={{
+                  delay: 0.3,
+                  type: "spring",
+                  damping: 12,
+                  stiffness: 100,
+                }}
+                className="text-4xl font-bold tracking-tight text-slate-800"
+              >
+                {"Transfero".split("").map((char, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ y: 40, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{
+                      delay: 0.3 + i * 0.05,
+                      type: "spring",
+                      damping: 12,
+                      stiffness: 100,
+                    }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </motion.h1>
+            </motion.div>
+
+            {/* Subtitle with fade-in */}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                transition: {
+                  delay: 0.7,
+                  duration: 0.8,
+                  ease: [0.22, 1, 0.36, 1],
+                },
+              }}
+              className="text-lg text-slate-600 max-w-xs"
+            >
+              Secure, instant file transfers
+            </motion.p>
+
+            {/* Animated loading dots */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: 1,
+                transition: { delay: 1 },
+              }}
+              className="flex gap-1 mt-6"
+            >
+              {[...Array(3)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="w-2 h-2 rounded-full bg-indigo-500"
+                  animate={{
+                    y: [0, -8, 0],
+                    transition: {
+                      duration: 1.2,
+                      repeat: Infinity,
+                      delay: i * 0.2,
+                    },
+                  }}
+                />
+              ))}
+            </motion.div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}

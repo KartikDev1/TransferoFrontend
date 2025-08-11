@@ -25,7 +25,9 @@ import {
   PlayCircle,
   Rocket,
   Infinity,
+  Globe,
 } from "lucide-react";
+import ReactCountryFlag from "react-country-flag";
 
 export const metadata = {
   title: "Transfero – All-in-One File Sharing & Tools",
@@ -53,88 +55,111 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100/30">
-        {/* Subtle grid pattern overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:20px_20px] opacity-20"></div>
+      <section className="relative overflow-hidden bg-gradient-to-br from-orange-50 via-white to-green-50">
+        {/* Simplified background pattern */}
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#f59e0b_0.5px,transparent_0.5px)] [background-size:20px_20px]"></div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center z-10">
-          <div className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-100 to-blue-200 px-4 py-2 text-sm font-semibold text-blue-700 mb-8 shadow-sm ring-1 ring-blue-200/50 hover:shadow-md transition-shadow animate-[pulse_2s_ease-in-out_infinite]">
-            <Zap className="w-5 h-5 mr-2 text-blue-600 animate-[pulse_1.5s_ease-in-out_infinite]" />
-            No Login Required - Start Instantly
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 text-center z-10">
+          {/* Side-by-side badges container */}
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
+            {/* Independence Day Badge */}
+            <div className="inline-flex items-center rounded-full bg-gradient-to-r from-orange-100 to-green-100 px-5 py-2 text-sm font-semibold text-orange-700 shadow-md ring-1 ring-orange-200/60">
+              {/* India Flag */}
+              <ReactCountryFlag
+                countryCode="IN"
+                svg
+                style={{
+                  width: "1.5em",
+                  height: "1.5em",
+                  borderRadius: "2px",
+                  marginRight: "0.5rem",
+                }}
+                title="India"
+              />
+              Celebrating 77th Independence Day
+            </div>
+
+            {/* Tagline */}
+            <div className="inline-flex items-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-green-800 shadow-md ring-1 ring-green-200/60">
+              <Zap className="w-4 h-4 mr-2 text-orange-500" />
+              No Login Required - Start Instantly
+            </div>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-8 leading-tight tracking-tighter text-slate-900">
-            <span className="whitespace-nowrap">Transfero:</span>
-            <span className="whitespace-nowrap sm:ml-1">Where</span>
-            <br className="sm:hidden" />
-            <span className="whitespace-nowrap sm:ml-1">Files</span>
-            <br className="hidden sm:inline" />
-            <span className="whitespace-nowrap bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
-              Move Like Magic
+          {/* Simplified Heading */}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 leading-tight">
+            <span className="block text-slate-800">Transfer Files</span>
+            <span className="block mt-2 bg-gradient-to-r from-orange-500 to-green-500 bg-clip-text text-transparent">
+              Without Limits
             </span>
           </h1>
 
-          <p className="text-lg md:text-xl text-slate-600/90 max-w-3xl mx-auto mb-12 leading-relaxed">
-            Transfero has evolved beyond simple file transfers. Experience
-            <span className="font-medium text-blue-600">
-              {" "}
-              military-secure sharing
-            </span>
-            ,
-            <span className="font-medium text-violet-600">
-              {" "}
-              intelligent automation
-            </span>
-            , and
-            <span className="font-medium text-teal-600">
-              {" "}
-              seamless collaboration
+          {/* Clean Description */}
+          <p className="text-lg md:text-xl text-slate-700 max-w-3xl mx-auto mb-12 leading-relaxed">
+            Secure sharing with{" "}
+            <span className="font-medium text-orange-600">
+              end-to-end encryption
             </span>{" "}
-            - all with the simplicity you love. No compromises.
+            and{" "}
+            <span className="font-medium text-green-600">
+              lightning-fast transfers
+            </span>
+            .
           </p>
 
+          {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/share"
-              className="relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl shadow-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group overflow-hidden"
+              className="inline-flex items-center justify-center px-8 py-3.5 text-lg font-bold rounded-xl shadow-lg bg-gradient-to-r from-orange-500 to-green-500 text-white hover:shadow-xl transition-all"
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-              <span className="relative z-10 flex items-center">
-                Try Transfero Free
-                <ChevronRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
-              </span>
+              Try Transfero Free
+              <ChevronRight className="w-5 h-5 ml-2" />
             </Link>
 
             <Link
               href="#features"
-              className="relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl border-2 border-blue-200 bg-white text-blue-700 hover:bg-blue-50/50 hover:border-blue-300 transition-all duration-300 hover:-translate-y-1 group"
+              className="inline-flex items-center justify-center px-8 py-3.5 text-lg font-bold rounded-xl border-2 border-orange-300 bg-white text-orange-700 hover:bg-orange-50 transition-all shadow-sm"
             >
-              <span className="relative z-10 flex items-center">
-                See How It Works
-                <PlayCircle className="w-5 h-5 ml-2 text-blue-600 transition-transform group-hover:scale-110" />
-              </span>
+              Learn More
+              <PlayCircle className="w-5 h-5 ml-2 text-green-500" />
             </Link>
           </div>
 
-          <div className="mt-16 flex flex-wrap items-center justify-center gap-4 text-sm font-medium text-slate-700">
-            <div className="flex items-center bg-white/80 px-4 py-2 rounded-lg shadow-sm ring-1 ring-blue-100/50">
-              <ShieldCheck className="w-4 h-4 mr-2 text-emerald-500" />
-              <span>Bank-Level Security</span>
+          {/* Features Grid */}
+          <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-4xl mx-auto">
+            <div className="bg-white/90 p-5 rounded-lg shadow-md ring-1 ring-orange-100/50 flex flex-col items-center">
+              <ShieldCheck className="w-8 h-8 text-orange-500 mb-2" />
+              <h3 className="font-bold text-slate-800">Bank-Grade Security</h3>
             </div>
-            <div className="flex items-center bg-white/80 px-4 py-2 rounded-lg shadow-sm ring-1 ring-blue-100/50">
-              <Rocket className="w-4 h-4 mr-2 text-blue-500" />
-              <span>10x Faster Transfers</span>
+
+            <div className="bg-white/90 p-5 rounded-lg shadow-md ring-1 ring-green-100/50 flex flex-col items-center">
+              <Rocket className="w-8 h-8 text-green-500 mb-2" />
+              <h3 className="font-bold text-slate-800">Lightning Fast</h3>
             </div>
-            {/* <div className="flex items-center bg-white/80 px-4 py-2 rounded-lg shadow-sm ring-1 ring-blue-100/50">
-              <Infinity className="w-4 h-4 mr-2 text-violet-500" />
-              <span>No Size Limits</span>
-            </div> */}
+
+            <div className="bg-white/90 p-5 rounded-lg shadow-md ring-1 ring-amber-100/50 flex flex-col items-center">
+              {/* India Flag */}
+              <ReactCountryFlag
+                countryCode="IN"
+                svg
+                style={{
+                  width: "2.5em",
+                  height: "2.5em",
+                  borderRadius: "2px",
+                  marginBottom: "0.5rem",
+                }}
+                title="India"
+              />
+
+              <h3 className="font-bold text-slate-800">Made in India</h3>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Features Grid */}
-      <section
+      {/* <section
         id="features"
         className="bg-gradient-to-br from-slate-50 to-blue-50/50 border-y border-slate-100 py-24"
       >
@@ -172,10 +197,54 @@ export default function HomePage() {
             />
           </div>
         </div>
+      </section> */}
+
+      <section
+        id="features"
+        className="bg-gradient-to-br from-amber-50 to-emerald-50 border-y border-gray-200 py-24"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-2 text-sm font-semibold tracking-wider text-amber-600 uppercase rounded-full bg-amber-100 mb-4">
+              Proudly Indian
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 mb-4">
+              Powerful,{" "}
+              <span className="bg-gradient-to-r from-amber-500 to-emerald-600 bg-clip-text text-transparent">
+                Secure
+              </span>{" "}
+              & Fast
+            </h2>
+            <p className="text-xl text-gray-600 mt-4 max-w-2xl mx-auto">
+              Built for India's digital revolution with world-class performance.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <FeatureCard
+              icon={<ShieldCheck className="w-6 h-6 text-amber-600" />}
+              title="Military-Grade Encryption"
+              description="End-to-end 256-bit AES encryption for all file transfers, ensuring your data is always secure."
+              color="amber"
+            />
+            <FeatureCard
+              icon={<Rocket className="w-6 h-6 text-emerald-600" />}
+              title="Lightning Fast Transfers"
+              description="Optimized for India's internet speeds with 10x faster transfers than competitors."
+              color="emerald"
+            />
+            <FeatureCard
+              icon={<Globe className="w-6 h-6 text-blue-800" />}
+              title="Made for India"
+              description="Built by Indians for India, supporting all regional languages and payment methods."
+              color="blue"
+            />
+          </div>
+        </div>
       </section>
 
       {/* Tools Section */}
-      <section className="bg-gradient-to-b from-slate-50 to-white py-24">
+      {/* <section className="bg-gradient-to-b from-slate-50 to-white py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-4">
@@ -232,28 +301,93 @@ export default function HomePage() {
             />
           </div>
         </div>
+      </section> */}
+
+      <section className="bg-gradient-to-b from-amber-50 to-white py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-4">
+              A Complete{" "}
+              <span className="bg-gradient-to-r from-amber-500 to-emerald-600 bg-clip-text text-transparent">
+                File Toolkit
+              </span>
+            </h2>
+            <p className="text-xl text-slate-600 mt-4 max-w-3xl mx-auto">
+              Everything professionals and teams need for secure, efficient file
+              management - Made for India.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <ToolCard
+              title="Secure Sharing"
+              description="End-to-end encrypted file transfers with customizable links."
+              href="/share"
+              icon={<FileUp className="w-8 h-8 text-amber-600" />}
+              available
+              gradient="from-amber-50 to-amber-100"
+            />
+            <ToolCard
+              title="Media Converter"
+              description="Convert between dozens of popular audio and video formats."
+              href="/media-convert"
+              icon={<FileVideo2 className="w-8 h-8 text-emerald-600" />}
+              gradient="from-emerald-50 to-emerald-100"
+            />
+            <ToolCard
+              title="PDF Toolkit"
+              description="Merge, split, compress, and edit PDF documents with ease."
+              href="/pdf-tools"
+              icon={<FileText className="w-8 h-8 text-blue-800" />}
+              gradient="from-blue-50 to-blue-100"
+            />
+            <ToolCard
+              title="Image Optimizer"
+              description="Compress, resize, and convert images for web and professional use."
+              href="/image-tools"
+              icon={<FileImage className="w-8 h-8 text-emerald-600" />}
+              gradient="from-emerald-50 to-emerald-100"
+            />
+            <ToolCard
+              title="Secure Vault"
+              description="Encrypted, password-protected cloud storage for your sensitive files."
+              href="/vault"
+              icon={<FileLock2 className="w-8 h-8 text-amber-600" />}
+              gradient="from-amber-50 to-amber-100"
+            />
+            <ToolCard
+              title="Batch Processor"
+              description="Apply actions like conversion or compression to multiple files at once."
+              href="/batch"
+              icon={<FileSearch className="w-8 h-8 text-blue-800" />}
+              gradient="from-blue-50 to-blue-100"
+            />
+          </div>
+        </div>
       </section>
 
       {/* STATS */}
-      <section className="bg-gradient-to-br from-blue-50 to-indigo-50 py-16">
+      <section className="bg-gradient-to-br from-amber-50 to-emerald-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-white text-primary shadow-sm mb-4">
+            <span className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-white text-amber-600 shadow-sm mb-4">
               Trust & Reliability
             </span>
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Trusted by <span className="text-primary">Professionals</span>{" "}
-              Worldwide
+              Trusted by{" "}
+              <span className="bg-gradient-to-r from-amber-500 to-emerald-600 bg-clip-text text-transparent">
+                Professionals
+              </span>{" "}
+              Across India
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Our numbers speak for themselves
+              Serving millions with Made-in-India technology
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {/* Stat Card 1 */}
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-primary mx-auto mb-4">
+            {/* Stat Card 1 - Saffron themed */}
+            <div className="bg-white rounded-lg p-6 shadow-sm border border-amber-100 text-center hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 mx-auto mb-4">
                 <Shield className="w-5 h-5" />
               </div>
               <div className="text-3xl font-bold text-gray-900 mb-2">
@@ -263,13 +397,13 @@ export default function HomePage() {
                 Security
               </h3>
               <p className="text-gray-500 text-sm">
-                Your files are protected like financial transactions
+                Your files protected with Indian security standards
               </p>
             </div>
 
-            {/* Stat Card 2 */}
+            {/* Stat Card 2 - White themed */}
             <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-primary mx-auto mb-4">
+              <div className="w-12 h-12 rounded-lg bg-gray-50 flex items-center justify-center text-gray-600 mx-auto mb-4">
                 <Clock className="w-5 h-5" />
               </div>
               <div className="text-3xl font-bold text-gray-900 mb-2">
@@ -277,19 +411,21 @@ export default function HomePage() {
               </div>
               <h3 className="text-lg font-medium text-gray-800 mb-2">Uptime</h3>
               <p className="text-gray-500 text-sm">
-                Available whenever you need it
+                Serving India 24/7 without interruption
               </p>
             </div>
 
-            {/* Stat Card 3 */}
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-primary mx-auto mb-4">
+            {/* Stat Card 3 - Green themed */}
+            <div className="bg-white rounded-lg p-6 shadow-sm border border-emerald-100 text-center hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 mx-auto mb-4">
                 <Users className="w-5 h-5" />
               </div>
               <div className="text-3xl font-bold text-gray-900 mb-2">10M+</div>
-              <h3 className="text-lg font-medium text-gray-800 mb-2">Users</h3>
+              <h3 className="text-lg font-medium text-gray-800 mb-2">
+                Indian Users
+              </h3>
               <p className="text-gray-500 text-sm">
-                Files shared with confidence
+                Trusted by professionals across the nation
               </p>
             </div>
           </div>
@@ -297,24 +433,25 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
+
       <section className="bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
           <div className="relative bg-slate-50 rounded-2xl shadow-lg shadow-slate-200/50 overflow-hidden">
-            {/* Decorative background glow */}
-            <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-tr from-blue-200 to-violet-200 rounded-full blur-3xl opacity-40"></div>
+            {/* Decorative background glow in tricolor */}
+            <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-tr from-amber-200 via-white to-emerald-200 rounded-full blur-3xl opacity-40"></div>
             <div className="relative text-center p-12 z-10">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-slate-900 tracking-tight">
-                Ready to transform your workflow?
+                Ready to join India's digital revolution?
               </h2>
               <p className="text-lg text-slate-600 mb-10 max-w-2xl mx-auto">
-                Join thousands of professionals who trust Transfero for secure
-                and efficient file management.
+                Join millions of Indians who trust Transfero for secure and
+                efficient file management.
               </p>
               <Link
                 href="/share"
-                className="inline-flex items-center justify-center px-10 py-4 text-lg font-bold rounded-lg shadow-lg bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:shadow-xl hover:shadow-blue-500/30 transition-all transform hover:scale-105"
+                className="inline-flex items-center justify-center px-10 py-4 text-lg font-bold rounded-lg shadow-lg bg-gradient-to-r from-amber-500 to-emerald-600 text-white hover:shadow-xl hover:shadow-amber-500/30 transition-all transform hover:scale-105"
               >
-                Get Started - It&apos;s Free
+                Get Started - It's Free 🇮🇳
               </Link>
             </div>
           </div>
@@ -390,15 +527,18 @@ function Navbar() {
     <nav className="bg-white/90 backdrop-blur-lg shadow-sm sticky top-0 z-50 border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          <Link href="/" className="flex items-center gap-3">
+          <Link
+            href="/"
+            className="flex items-center gap-3 hover:opacity-90 transition-opacity"
+          >
             <Image
-              src="/transfero-logo2.png"
+              src="/transfero-ind.png"
               alt="Transfero Logo"
               width={40}
               height={40}
               className="object-contain"
             />
-            <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
+            <span className="text-2xl font-bold bg-gradient-to-r from-[#FF9933] to-[#138808] bg-clip-text text-transparent drop-shadow-sm">
               Transfero
             </span>
           </Link>
@@ -409,24 +549,22 @@ function Navbar() {
               <Link
                 key={href}
                 href={href}
-                className="relative px-4 py-2 group text-slate-700 hover:text-blue-600 font-medium transition-colors"
+                className="relative px-4 py-2 group text-slate-700 hover:text-[#FF9933] font-medium transition-colors"
               >
                 {label}
-                <span className="absolute bottom-1 left-0 h-0.5 bg-blue-600 w-0 group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute bottom-1 left-0 h-0.5 bg-gradient-to-r from-[#FF9933] to-[#138808] w-0 group-hover:w-full transition-all duration-300"></span>
               </Link>
             ))}
           </div>
 
           {/* Mobile Navigation */}
           <div className="md:hidden flex items-center">
-            {/* Hidden checkbox that controls the menu */}
             <input
               type="checkbox"
               id="mobile-menu-toggle"
               className="hidden peer"
             />
 
-            {/* Hamburger button (label for the checkbox) */}
             <label
               htmlFor="mobile-menu-toggle"
               className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 transition-colors cursor-pointer"
@@ -434,18 +572,23 @@ function Navbar() {
               <Menu className="w-5 h-5 text-slate-700" />
             </label>
 
-            {/* Mobile menu that appears when checkbox is checked */}
             <div className="hidden peer-checked:block absolute top-16 left-0 right-0 bg-white shadow-lg border-t border-slate-100 py-4 px-6">
               <div className="flex flex-col space-y-3">
                 {navLinks.map(({ href, label }) => (
                   <Link
                     key={href}
                     href={href}
-                    className="px-4 py-2 text-slate-700 hover:text-blue-600 font-medium transition-colors"
+                    className="px-4 py-2 text-slate-700 hover:text-[#FF9933] font-medium transition-colors border-l-2 border-transparent hover:border-[#FF9933] pl-3"
                   >
                     {label}
                   </Link>
                 ))}
+                <Link
+                  href="/share"
+                  className="mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-[#FF9933] to-[#138808] text-white font-medium text-center"
+                >
+                  Share Now
+                </Link>
               </div>
             </div>
           </div>
@@ -494,7 +637,7 @@ function Footer() {
           <div className="flex flex-col items-start">
             <Link href="/" className="mb-3" aria-label="Transfero Home">
               <Image
-                src="/favicon.ico"
+                src="/transfero-ind.png"
                 alt="Transfero Logo"
                 width={48}
                 height={48}
@@ -506,7 +649,7 @@ function Footer() {
               Transfero
             </h2>
             <p className="text-slate-600 leading-relaxed">
-              Secure file transfers made simple. Fast, reliable, and private.
+              Made in India 🇮🇳 - Secure file transfers for everyone.
             </p>
           </div>
           <div>
@@ -517,9 +660,9 @@ function Footer() {
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="group">
-                    <div className="flex items-center text-slate-700 hover:text-blue-600 transition-colors">
+                    <div className="flex items-center text-slate-700 hover:text-amber-600 transition-colors">
                       <ArrowRight
-                        className="w-3.5 h-3.5 mr-2 text-blue-600/70"
+                        className="w-3.5 h-3.5 mr-2 text-amber-600/70"
                         aria-hidden="true"
                       />
                       <span className="text-sm">{link.name}</span>
@@ -537,11 +680,11 @@ function Footer() {
               <div>
                 <a
                   href="mailto:transfero1018@gmail.com"
-                  className="hover:text-blue-600 transition-colors flex items-start"
+                  className="hover:text-emerald-600 transition-colors flex items-start"
                   aria-label="Email us at transfero1018@gmail.com"
                 >
                   <Mail
-                    className="w-4 h-4 mr-2 mt-0.5 text-blue-600/70"
+                    className="w-4 h-4 mr-2 mt-0.5 text-emerald-600/70"
                     aria-hidden="true"
                   />
                   <span>transfero1018@gmail.com</span>
@@ -549,7 +692,7 @@ function Footer() {
               </div>
               <div className="flex items-start">
                 <svg
-                  className="w-4 h-4 mr-2 mt-0.5 text-blue-600/70"
+                  className="w-4 h-4 mr-2 mt-0.5 text-emerald-600/70"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -584,7 +727,7 @@ function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Follow us on ${social.label}`}
-                  className="text-slate-500 hover:text-blue-600 p-2 transition-colors"
+                  className="text-slate-500 hover:text-amber-600 p-2 transition-colors"
                 >
                   {social.icon}
                 </a>
@@ -593,7 +736,8 @@ function Footer() {
           </div>
         </div>
         <div className="mt-16 pt-8 border-t border-slate-100 text-center text-sm text-slate-500">
-          &copy; {new Date().getFullYear()} Transfero. All rights reserved.
+          &copy; {new Date().getFullYear()} Transfero. Proudly made in India.
+          All rights reserved.
         </div>
       </div>
     </footer>

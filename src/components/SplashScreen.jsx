@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -26,7 +27,7 @@ export default function SplashScreen() {
               ease: [0.22, 1, 0.36, 1],
             },
           }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-violet-50"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-[#FFE5CC] via-white to-[#DFF5E1]" // lighter pastel saffron & green
         >
           <div className="flex flex-col items-center justify-center gap-6 text-center">
             {/* Logo with floating animation */}
@@ -46,7 +47,7 @@ export default function SplashScreen() {
               className="relative"
             >
               <Image
-                src="/transfero-logo2.png"
+                src="/transfero-ind.png"
                 alt="Transfero Logo"
                 width={140}
                 height={140}
@@ -54,7 +55,7 @@ export default function SplashScreen() {
                 className="drop-shadow-lg"
               />
               <motion.div
-                className="absolute inset-0 rounded-full bg-indigo-500/10 -z-10"
+                className="absolute inset-0 rounded-full bg-[#FF9933]/15 -z-10" // softer saffron glow
                 initial={{ scale: 0.8 }}
                 animate={{
                   scale: 1.2,
@@ -78,7 +79,7 @@ export default function SplashScreen() {
                   damping: 12,
                   stiffness: 100,
                 }}
-                className="text-4xl font-bold tracking-tight text-slate-800"
+                className="text-4xl font-bold tracking-tight text-[#0C3B2E]"
               >
                 {"Transfero".split("").map((char, i) => (
                   <motion.span
@@ -110,7 +111,7 @@ export default function SplashScreen() {
                   ease: [0.22, 1, 0.36, 1],
                 },
               }}
-              className="text-lg text-slate-600 max-w-xs"
+              className="text-lg text-[#444] max-w-xs"
             >
               Secure, instant file transfers
             </motion.p>
@@ -124,10 +125,11 @@ export default function SplashScreen() {
               }}
               className="flex gap-1 mt-6"
             >
-              {[...Array(3)].map((_, i) => (
+              {["#FFB366", "#000080", "#80CFA9"].map((color, i) => (
                 <motion.div
                   key={i}
-                  className="w-2 h-2 rounded-full bg-indigo-500"
+                  className="w-2 h-2 rounded-full"
+                  style={{ backgroundColor: color }}
                   animate={{
                     y: [0, -8, 0],
                     transition: {
