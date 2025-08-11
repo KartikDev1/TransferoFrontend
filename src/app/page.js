@@ -216,7 +216,8 @@ export default function HomePage() {
               & Fast
             </h2>
             <p className="text-xl text-gray-600 mt-4 max-w-2xl mx-auto">
-              Built for India's digital revolution with world-class performance.
+              Built for India&apos;s digital revolution with world-class
+              performance.
             </p>
           </div>
 
@@ -441,7 +442,7 @@ export default function HomePage() {
             <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-tr from-amber-200 via-white to-emerald-200 rounded-full blur-3xl opacity-40"></div>
             <div className="relative text-center p-12 z-10">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-slate-900 tracking-tight">
-                Ready to join India's digital revolution?
+                Ready to join India&apos;s digital revolution?
               </h2>
               <p className="text-lg text-slate-600 mb-10 max-w-2xl mx-auto">
                 Join millions of Indians who trust Transfero for secure and
@@ -451,7 +452,7 @@ export default function HomePage() {
                 href="/share"
                 className="inline-flex items-center justify-center px-10 py-4 text-lg font-bold rounded-lg shadow-lg bg-gradient-to-r from-amber-500 to-emerald-600 text-white hover:shadow-xl hover:shadow-amber-500/30 transition-all transform hover:scale-105"
               >
-                Get Started - It's Free 🇮🇳
+                Get Started - It&apos;s Free 🇮🇳
               </Link>
             </div>
           </div>
