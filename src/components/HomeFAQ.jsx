@@ -26,7 +26,7 @@ const faqs = [
     id: 4,
     question: "What file types are supported?",
     answer:
-      "Transfero supports all common file types including documents, images, videos, and archives. There's a 50MB limit per file transfer.",
+      "Transfero supports all common file types including documents, images, videos, and archives. There's a 1 GB limit per file transfer.",
   },
   {
     id: 5,
