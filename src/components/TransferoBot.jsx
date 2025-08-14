@@ -80,7 +80,7 @@ export default function TransferoBot() {
             <div className="bg-gradient-to-r from-purple-600 via-blue-500 to-cyan-400 p-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <CuteBotIcon className="w-8 h-8" />
-                <h3 className="font-bold text-white text-lg">TransferoBot</h3>
+                <h3 className="font-bold text-white text-lg">Transi</h3>
               </div>
               <button
                 onClick={toggleMessage}
@@ -96,8 +96,7 @@ export default function TransferoBot() {
                 <div className="chat chat-start">
                   {/* Text updated to your new version */}
                   <div className="chat-bubble bg-slate-100 text-slate-800">
-                    Heyaaa 👋 I'm TransferoBot, your soon-to-be file-sharing
-                    bestie.
+                    Heyaaa 👋 I'm Transi, your soon-to-be file-sharing bestie.
                   </div>
                 </div>
                 <div className="chat chat-start">
