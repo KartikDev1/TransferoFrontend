@@ -92,6 +92,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        {/* ✅ Monetag MultiTag Script */}
+        <Script
+          src="https://fpyf8.com/88/tag.min.js"
+          data-zone="163606"
+          async
+          data-cfasync="false"
+          strategy="afterInteractive"
+        />
+
         {/* ✅ Cloudflare Web Analytics */}
         <Script
           strategy="afterInteractive"
