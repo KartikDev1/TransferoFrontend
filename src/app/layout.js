@@ -92,21 +92,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* ✅ Monetag / Custom Ad Script */}
-        <Script id="custom-ad-script" strategy="afterInteractive">
-          {`(function(d,z,s){
-              s.src='https://'+d+'/400/'+z;
-              try{
-                (document.body||document.documentElement).appendChild(s)
-              }catch(e){}
-            })('vemtoutcheeg.com',9719443,document.createElement('script'))`}
-        </Script>
-        <Script
-          src="https://vaugroar.com/act/files/tag.min.js?z=9719518"
-          data-cfasync="false"
-          async
-        />
-
         {/* ✅ Cloudflare Web Analytics */}
         <Script
           strategy="afterInteractive"
