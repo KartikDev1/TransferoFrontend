@@ -30,25 +30,35 @@ import {
 import ReactCountryFlag from "react-country-flag";
 
 export const metadata = {
-  title: "Transfero – All-in-One File Sharing & Tools",
+  title:
+    "Transfero – Free & Secure File Sharing, Large File Transfer & Online File Conversion",
   description:
-    "Professional-grade file management tools with enterprise security",
-  keywords: "secure file sharing, PDF tools, media conversion, cloud storage",
+    "Transfero is a fast, secure, and free platform to share files online, send large files, and convert documents. No sign-up required, 100% private, enterprise-grade encryption.",
+  keywords: [
+    "secure file sharing",
+    "send files online",
+    "large file transfer",
+    "PDF to Word converter",
+    "media conversion",
+    "cloud storage",
+    "encrypted file sharing",
+  ],
   alternates: { canonical: "https://transfero.in" },
   robots: { index: true, follow: true },
   openGraph: {
-    title: "Transfero – Enterprise File Solutions",
-    description: "End-to-end encrypted file management platform",
+    title: "Transfero – Secure File Sharing & File Conversion Tools",
+    description:
+      "Send and receive files securely, share large files instantly, and convert documents online with Transfero. No sign-up needed.",
     images: [
       {
         url: "https://www.transfero.in/transfero-logo2.png",
         width: 1200,
         height: 630,
+        alt: "Transfero – File Sharing & Conversion",
       },
     ],
   },
 };
-
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-white text-slate-800">
