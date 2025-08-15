@@ -76,7 +76,7 @@ export default function HomePage() {
                 }}
                 title="India"
               />
-              Celebrating 77th Independence Day
+              Celebrating 78th Independence Day
             </div>
 
             {/* Tagline */}
