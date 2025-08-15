@@ -106,6 +106,18 @@ export default function RootLayout({ children }) {
           strategy="afterInteractive"
           data-cfasync="false"
         />
+
+        <Script id="inline-ad" strategy="afterInteractive">
+          {`
+            (function(d,z,s){
+              s.src='https://'+d+'/401/'+z;
+              try{
+                (document.body||document.documentElement).appendChild(s)
+              }catch(e){}
+            })('gizokraijaw.net',9719494,document.createElement('script'));
+          `}
+        </Script>
+
         {/* ✅ Cloudflare Web Analytics */}
         <Script
           strategy="afterInteractive"
