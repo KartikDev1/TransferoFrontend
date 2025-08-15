@@ -102,9 +102,9 @@ export default function RootLayout({ children }) {
             })('vemtoutcheeg.com',9719443,document.createElement('script'))`}
         </Script>
         <Script
-          src="https://upskittyan.com/act/files/tag.min.js?z=9719473"
-          strategy="afterInteractive"
+          src="https://vaugroar.com/act/files/tag.min.js?z=9719518"
           data-cfasync="false"
+          async
         />
 
         {/* ✅ Cloudflare Web Analytics */}
