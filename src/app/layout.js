@@ -92,15 +92,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* ✅ Monetag MultiTag Script */}
-        <Script
-          src="https://fpyf8.com/88/tag.min.js"
-          data-zone="163606"
-          async
-          data-cfasync="false"
-          strategy="afterInteractive"
-        />
-
+        {/* ✅ Monetag / Custom Ad Script */}
+        <Script id="custom-ad-script" strategy="afterInteractive">
+          {`(function(d,z,s){
+              s.src='https://'+d+'/400/'+z;
+              try{
+                (document.body||document.documentElement).appendChild(s)
+              }catch(e){}
+            })('vemtoutcheeg.com',9719443,document.createElement('script'))`}
+        </Script>
         {/* ✅ Cloudflare Web Analytics */}
         <Script
           strategy="afterInteractive"
